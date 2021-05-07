@@ -9,7 +9,7 @@ name: Eduardo De Leon
 description: Student
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: "images/profile.jpg"
+avatar: https://lh3.googleusercontent.com/Y95DLDyN3UILCc-pm7bE6a6VK2YNJNze-YR_uCVV_lVnolmkH0OcTZwNAsGsQufRGYUq=s85
 
 #
 # Flags below are optional
@@ -28,7 +28,7 @@ footer-links:
   rss: # just type anything here for a working RSS icon
   twitter: 
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
-  youtube: # channel/<your_long_string> or user/<user-name>
+  youtube: channel/UCrS_M_8NnJC8PwawbmbEujg
   googleplus: # anything in your profile username that comes after plus.google.com/
 
 
