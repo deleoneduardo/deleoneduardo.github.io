@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 ### Education
-B.A. Economics and Mathematics, University of Texas at Austin, 2021
+B.A. Economics, University of Texas at Austin, 2021
 
 ### Skills
 Programming: C++, Java, Python, R, Stata <br />
