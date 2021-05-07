@@ -16,6 +16,3 @@ My short-term career goal is to serve in the U.S. Army, while my long-term caree
 ### Skills
 Programming: C++, Java, Python, R, Stata <br />
 Languages: English, French, Russian, Spanish
-
-### Contact me
-[deleoneduardo@pm.me](mailto:deleoneduardo@pm.me)
