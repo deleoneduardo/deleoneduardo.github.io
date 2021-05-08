@@ -10,4 +10,4 @@ I was born in Mexico and reside in Texas. I am studying economics and math at th
 I am interested in statistics and data science. In my free time, I like to learn foreign languages, listen to [podcasts](https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5tZWdhcGhvbmUuZm0vV1dPNjY1NTg2OTIzNg), play chess, and exercise. 
 
 # Ambitions
-I want to become a firefighter when I grow up.
+I want to become a firefighter in the near future.
