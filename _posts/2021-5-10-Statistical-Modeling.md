@@ -1,18 +1,20 @@
 ---
 layout: post
-title: "Modeling State Political Affiliation from Income Inequality and Health Care Costs"
+title: "Statistical Modeling in R"
 author: "Eduardo De Leon"
 ---
 
+# Modeling State Political Affiliation from Income Inequality and Health Care Costs
+
 ## Introduction
+
 This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners. Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
-<br /><br />
-The following regression model estimates the relationship between five components to health care access and the income inequality ratio: 
-<center> (<i>Inequality Ratio</i>) = α + β<sub>1</sub>(<i>Private</i>) + β<sub>2</sub>(<i>Medicare</i>) + β<sub>3</sub>(<i>Medicaid</i>) + β<sub>4</sub>(<i>Dental</i>) + β<sub>5</sub>(<i>Clinical</i>) + β<sub>6</sub>(<i>Region</i>) + β<sub>7</sub>(<i>Age</i>) + β<sub>8</sub>(<i>Race</i>) + u </center> 
+
 To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013 around [income inequality](https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6). Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups to examine [access to health care](https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet). Bridged-race population estimates were manually translated into spreadsheet format; the [data request](https://wonder.cdc.gov/bridged-race-population.html) can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) specified presidential results in 2012.
-<br /><br />
+
+
 Piketty and Saenz (2004) highlight the similarities between modern income inequality levels and 20th-century income inequality prior to World War II. As a potential association, I expect health care costs to be higher in states with greater wealth inequality.
-<br /><br />
+
 
 ```
 # Setting libraries and installing new packages
@@ -98,7 +100,7 @@ for(i in 1:5000){
 data.frame(t) %>% ggplot(aes(t)) + geom_histogram(aes(y=..density..), bins = 30) + stat_function(fun = dt, args=list(df = 49), geom="line")
 ```
 
-The null hypothesis H<sub>0</sub>: mu = 0.5, when in reality, this proportion is 0.5294. Our p-value of 0.678 is statistically insignificant. Thus. we fail to reject the null hypothesis and have convincing evidence for the null. 
+The null hypothesis states that mu = 0.5, when in reality, this proportion is 0.5294. Our p-value of 0.678 is statistically insignificant. Thus. we fail to reject the null hypothesis and have convincing evidence for the null. 
 
 The null hypothesis means that 50% of the states voted for the Democratic party. Through a randomization test, we repeat this 3000 times. Finally, we create a plot visualizing the null distribution and the test statistic.
 
