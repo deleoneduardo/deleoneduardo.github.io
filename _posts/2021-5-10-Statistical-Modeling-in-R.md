@@ -3,7 +3,7 @@ layout: post
 title: "Statistical Modeling in R"
 author: "Eduardo De Leon"
 ---
-I examine several components of health care access to find a relationship with statewide income inequality.
+I examine several components of health care access, such as Medicare and Medicaid, to find a relationship with statewide income inequality in the United States.
 
 ## Introduction
 
