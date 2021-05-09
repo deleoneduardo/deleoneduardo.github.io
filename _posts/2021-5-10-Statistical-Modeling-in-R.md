@@ -3,11 +3,11 @@ layout: post
 title: "Statistical Modeling in R"
 author: "Eduardo De Leon"
 ---
-I examine several components of health care to find a relationship with the income inequality ratio in the United States.
+I examine several components of health care access to find a relationship with statewide income inequality.
 
 ## Introduction
 
-Utilizing publicly available state-level data from 2013 on health care costs, such as Medicare and Medicaid costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
+Utilizing publicly available state-level data from 2013 on health care costs, such as Medicare and Medicaid costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality in the United States. 
 
 To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013 around [income inequality](https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6). Data sets on private health care spending per capita, dental services per capita, Medicare costs per beneficiary, Medicaid costs per enrollee, physician and clinical costs per capita were provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups to examine [access to health care](https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet). Bridged-race population estimates were manually translated into spreadsheet format; the [data request](https://wonder.cdc.gov/bridged-race-population.html) can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) specified presidential results in 2012.
 
