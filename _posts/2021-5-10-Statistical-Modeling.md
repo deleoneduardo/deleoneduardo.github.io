@@ -1,8 +1,19 @@
 ---
+layout: post
 title: "Modeling State Political Affiliation from Income Inequality and Health Care Costs"
 author: "Eduardo De Leon"
 ---
 
+## Introduction
+This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners. Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
+<br /><br />
+The following regression model estimates the relationship between five components to health care access and the income inequality ratio: 
+<center> (<i>Inequality Ratio</i>) = α + β<sub>1</sub>(<i>Private</i>) + β<sub>2</sub>(<i>Medicare</i>) + β<sub>3</sub>(<i>Medicaid</i>) + β<sub>4</sub>(<i>Dental</i>) + β<sub>5</sub>(<i>Clinical</i>) + β<sub>6</sub>(<i>Region</i>) + β<sub>7</sub>(<i>Age</i>) + β<sub>8</sub>(<i>Race</i>) + u </center>
+<br />
+To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013 around [income inequality](https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6). Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups to examine [access to health care](https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet). Bridged-race population estimates were manually translated into spreadsheet format; the [data request](https://wonder.cdc.gov/bridged-race-population.html) can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) specified presidential results in 2012.
+<br /><br />
+Piketty and Saenz (2004) highlight the similarities between modern income inequality levels and 20th-century income inequality prior to World War II. As a potential association, I expect health care costs to be higher in states with greater wealth inequality.
+<br /><br />
 
 ```
 # Setting libraries and installing new packages
@@ -14,20 +25,7 @@ library(sandwich)
 library(plotROC) 
 library(ggplot2)
 library("PerformanceAnalytics")
-```
 
-## Introduction
-This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners. Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
-<br /><br />
-The following regression model estimates the relationship between five components to health care access and the income inequality ratio: 
-<center> (<i>Inequality Ratio</i>) = α + β1(<i>Private</i>) + β2(<i>Medicare</i>) + β3(<i>Medicaid</i>) + β4(<i>Dental</i>) + β5(<i>Clinical</i>) + β6(<i>Region</i>) + β7(<i>Age</i>) + β8(<i>Race</i>) + u </center>
-<br /><br />
-To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013. The data is available here: https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6. Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups here: https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet. Bridged-rce population estimates were manually translated into spreadsheet format; the data request can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics at https://wonder.cdc.gov/bridged-race-population.html. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the Harvard Dataverse specified presidential results in 2012. https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX.
-<br /><br />
-Piketty and Saenz (2004) highlight the similarities between modern income inequality levels and 20th-century income inequality prior to World War II. As a potential association, I expect health care costs to be higher in states with greater wealth inequality.
-<br /><br />
-
-```
 # Create a dataset with all state health care data
 data = read_excel("health-care.xlsx")
 
@@ -44,16 +42,16 @@ data = data %>% mutate(party = ifelse(vote == "Democrat", 1, 0))
 This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single dataset named `data`.
 
 ## EDA
-#### Create summary statistics and visualizations of important variables and relationships between your variables in the dataset.
-```{r eda}
+
+```
 chart.Correlation(data %>% select(inequality_ratio, private, medicare, medicaid, dental, clinical), histogram = TRUE)
 ```
 
 The correlation matrix above shows the distribution of each variable on the diagonal. On the bottom of the diagonal, the bivariate scatter plots with a fitted line are displayed. On the top of the diagonal, the value of the correlation plus the significance level as stars are displayed. Finally, each significance level is associated to an asterisk symbol.
 
 ## MANOVA
-#### Perform a MANOVA test and if significant perform ANOVAs and post-hoc t-tests. Interpret p-values after correction and briefly discuss assumptions.
-```{r manova}
+
+```
 # Perform MANOVA with 4 response variables 
 manova_y = manova(cbind(inequality_ratio, private, medicaid, dental) ~ party, data = data)
 
@@ -74,13 +72,13 @@ pairwise.t.test(data$dental, data$party, p.adj="none")
 
 Since the MANOVA was significant, we performed univariate ANOVA to find responses showing a mean difference across groups, and performed post-hoc t-tests to find which groups differ. We calculated 7 tests, so the probability of at least one type I error is 0.3016627039.
 
-After the Bonferroni correction, only one p-value that had been statistically significant is still statistically significant (the ANOVA on `Personal` healthcare cost variable).
+After the Bonferroni correction, only one p-value that had been statistically significant is still statistically significant (the ANOVA on `private` healthcare cost variable).
 
 The assumptions of this analysis of variance were most likely met, due to the sampling method of my data. The four assumptions that need to be fulfilled, interval data of the dependent variable, normality, homoskedasticity, and no multicollinearity, are then assumed. 
 
 ## Randomization Test
-#### Perform a randomization test on your data. Include hypotheses, the sampling distribution and test statistic, interpret the results.
-```{r random}
+
+```
 # Compute the t-statistic under H0: mu = 0.5 (which is half of the states)
 t = (mean(data$party))/(sd(data$party)/sqrt(50)) 
 t
@@ -101,12 +99,13 @@ for(i in 1:5000){
 data.frame(t) %>% ggplot(aes(t)) + geom_histogram(aes(y=..density..), bins = 30) + stat_function(fun = dt, args=list(df = 49), geom="line")
 ```
 
-The null hypothesis H0: mu = 0.5, when in reality, this proportion is 0.5294. Our p-value of 0.678 is statistically insignificant. Thus. we fail to reject the null hypothesis and have convincing evidence for the null. 
+The null hypothesis H<sub>0</sub>: mu = 0.5, when in reality, this proportion is 0.5294. Our p-value of 0.678 is statistically insignificant. Thus. we fail to reject the null hypothesis and have convincing evidence for the null. 
 
 The null hypothesis means that 50% of the states voted for the Democratic party. Through a randomization test, we repeat this 3000 times. Finally, we create a plot visualizing the null distribution and the test statistic.
 
 ## Linear Regression
-```{r linear}
+
+```
 # Fit a linear regression model
 fit = lm(inequality_ratio ~ private + medicare + medicaid + dental + clinical + far_west + great_lakes + mideast + new_england + plains + rocky_mountains + southeast + southwest + age + white + black + asian + native + hispanic, data = data)
 
@@ -151,10 +150,9 @@ The assumptions for linear regression were met by plotting the residuals against
 
 Then, we calculated the robust SEs and bootstrapped SEs. The bootstrapped standard errors are lower than the robust SEs. Conversely, the robust SEs are lower compared to the original SEs of the model. The p-values of the robust SEs, however, are higher than the original p-values from the model.
 
-\newpage
-
 ## Logistic Regression
-```{r logit}
+
+```
 # Logistic model
 mylogit = glm(party ~ inequality_ratio + private + medicare + medicaid + dental + clinical, data = data, family = "binomial")
 summary(mylogit)
