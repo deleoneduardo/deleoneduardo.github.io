@@ -3,12 +3,11 @@ layout: post
 title: "Statistical Modeling in R"
 author: "Eduardo De Leon"
 ---
-
-# Modeling State Political Affiliation from Income Inequality and Health Care Costs
+This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners.
 
 ## Introduction
 
-This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners. Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
+Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
 
 To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013 around [income inequality](https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6). Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups to examine [access to health care](https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet). Bridged-race population estimates were manually translated into spreadsheet format; the [data request](https://wonder.cdc.gov/bridged-race-population.html) can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the [Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) specified presidential results in 2012.
 
@@ -143,13 +142,13 @@ samp_SEs = replicate(5000, {
 samp_SEs %>% t %>% as.data.frame %>% summarize_all(sd)
 ```
 
-A regression model to predict the average income of the lower 99% of income earners from healthcare costs was built. To interpret the coefficient `Personal:Medicaid:Dental`: I used an interaction term of order 3 to represent the three-way interaction between the `Personal`, `Medicaid`, and `Dental` variables. In this case, the relationship between the `Lower` variable and `Medicaid` costs depends on both `Personal` healthcare and `Dental` costs. 
+A regression model to predict the average income of the lower 99% of income earners from healthcare costs was built. Interpreting the coefficients, I used five components to health care access, while using region, age, and race as control variables. In this case, the variables `private`, `medicare`, `medicaid`, `dental`, and `clinical` are used to predict the variable `inequality_ratio`.
 
-Since the R-squared is equal to 0.5434, our model explains for 54.34% of the variation in the response. 
+Since the R-squared is equal to 0.6088, our model explains for 60.88% of the variation in the response. 
 
 The assumptions for linear regression were met by plotting the residuals against the fittest values to check for nonlinearity and equal variance, and by constructing a Q-Q plot to check for normality of the residuals. 
 
-Then, we calculated the robust SEs and bootstrapped SEs. The bootstrapped standard errors are lower than the robust SEs. Conversely, the robust SEs are lower compared to the original SEs of the model. The p-values of the robust SEs, however, are higher than the original p-values from the model.
+Then, we calculated the robust standard errors and bootstrapped standard errors. The bootstrapped standard errors are lower than the robust standard errors. Conversely, the robust standard errors are lower compared to the original standard errors of the model. The p-values of the robust standard errors, however, are higher than the original p-values from the model.
 
 ## Logistic Regression
 
