@@ -1,13 +1,10 @@
 ---
 title: "Modeling State Political Affiliation from Income Inequality and Health Care Costs"
 author: "Eduardo De Leon"
-output: html_document
-always_allow_html: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 
+```
 # Setting libraries and installing new packages
 library(readxl)
 library(tidyverse)
@@ -21,15 +18,16 @@ library("PerformanceAnalytics")
 
 ## Introduction
 This study examines health care access components such as private health insurance, Medicare, Medicaid, dental, physician, and clinical services to find a relationship with the income inequality ratio between the average income of the top 1% and the bottom 99% of income earners. Utilizing publicly available state-level data from 2013 on health care costs, data from the Economic Policy Institute on income inequality, and multiple other income and health related control variables from the Centers for Disease Control and Prevention will allow us to run multiple linear regression focusing on how health care affects income inequality. 
-<br />
+<br /><br />
 The following regression model estimates the relationship between five components to health care access and the income inequality ratio: 
-<center> (*Inequality Ratio*) = α + β1(*Private*) + β2(*Medicare*) + β3(*Medicaid*) + β4(*Dental*) + β5(*Clinical*) + β6(*Region*) + β7(*Age*) + β8(*Race*) + u </center> 
-<br />
-To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013. The data is available here: https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6. Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups here: https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet. Bridged-rce population estimates were manually translated into spreadsheet format; the data request can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics at https://wonder.cdc.gov/bridged-race-population.html. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the Harvard Dataverse specified presidential results in 2012. https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX
-<br />
+<center> (<i>Inequality Ratio</i>) = α + β1(<i>Private</i>) + β2(<i>Medicare</i>) + β3(<i>Medicaid</i>) + β4(<i>Dental</i>) + β5(<i>Clinical</i>) + β6(<i>Region</i>) + β7(<i>Age</i>) + β8(<i>Race</i>) + u </center>
+<br /><br />
+To describe state-by-state income inequality, the Economic Policy Institute, an independent think tank, investigated the impact of economic trends and policies in 2013. The data is available here: https://www.epi.org/publication/income-inequality-in-the-us/#epi-toc-6. Data on health care components was provided by the Centers for Medicare & Medicaid Services and derived from the National Health Statistics Groups here: https://www.cms.gov/research-statistics-data-and-systems/statistics-trends-and-reports/nationalhealthexpenddata/nhe-fact-sheet. Bridged-rce population estimates were manually translated into spreadsheet format; the data request can be made from the U.S. Census Bureau in collaboration with the National Center for Health Statistics at https://wonder.cdc.gov/bridged-race-population.html. Finally, a dataset on U.S. Presidential Elections from 1976–2020 from the Harvard Dataverse specified presidential results in 2012. https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX.
+<br /><br />
 Piketty and Saenz (2004) highlight the similarities between modern income inequality levels and 20th-century income inequality prior to World War II. As a potential association, I expect health care costs to be higher in states with greater wealth inequality.
+<br /><br />
 
-```{r introduction}
+```
 # Create a dataset with all state health care data
 data = read_excel("health-care.xlsx")
 
