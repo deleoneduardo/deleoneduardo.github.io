@@ -56,7 +56,7 @@ sns.regplot(data = data, x = 'Adult Obesity, 2019', y = 'Happiness').set(title =
 [Text(0.5, 1.0, 'Happiness and Adult Obesity Rates in the United States\n')]
 ```
 
-![output_8_2.png]({{ site.baseurl }}images/output_8_2.png)
+![output_8_2.png]({{ site.baseurl }}/images/output_8_2.png)
 
 I discovered that the overall adult obesity in the United States was 31.90% in 2019, while the overall overweight population rate was 65.09% in 2016. 
 
@@ -85,7 +85,7 @@ sns.barplot(x = 'Region', y = 'Happiness', data = data).set(title = 'Happiness I
     [Text(0.5, 1.0, 'Happiness Index by Region in the United States\n')]
 ```
     
-![output_10_2.png]({{ site.baseurl }}images/output_10_2.png)
+![output_10_2.png]({{ site.baseurl }}/images/output_10_2.png)
 
 From the descriptive statistics table, we see that the western region of the United States has the most variation in happiness since it has a standard deviation of 8.96 points, while the northeast has the least at 4.64. The mean happiness index is 45.19 in the south, 54.08 in the west, 55.07 in the northeast, and 53.845 in the midwest.
 
