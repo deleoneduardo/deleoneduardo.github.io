@@ -110,11 +110,11 @@ ggplot(states %>% select(medicaid, inequality_ratio, control), aes(x = medicaid,
 ggplot(states %>% select(medicare, inequality_ratio, control), aes(x = medicare, y = inequality_ratio, colour = control)) + scale_color_manual(values = col) + ggtitle("Statewide Medicare Costs and Income Inequality") + geom_smooth(method = lm, formula = y ~ x) + geom_point() 
 ```
 
-![corrmat.jpg]({{ site.baseurl }}/images/corrmat.png)
+![corrmat.png]({{ site.baseurl }}/images/corrmat.png)
 
-![plot1.jpg]({{ site.baseurl }}/images/plot1.png)
+![plot1.png]({{ site.baseurl }}/images/plot1.png)
 
-![plot2.jpg]({{ site.baseurl }}/images/plot2.png)
+![plot2.png]({{ site.baseurl }}/images/plot2.png)
 
 The first plot shows a heatmap that provides a correlation matrix for all the variables in `states`. There is a 0.53 correlation between `inequality_ratio` and `medicaid`, and there is a -0.42 correlation between `Hospice` and `Bottom`. Therefore, we constructed two additional plots that present the relationships among these variables. 
 
@@ -148,5 +148,13 @@ fviz_pca_var(states_pca, col.var = "black", repel = TRUE) # Avoid text overlappi
 # Visualize the individuals according to PC1 and PC2
 fviz_pca_ind(states_pca, geom.ind = "point", col.ind = states$control, palette = c("#00AFBB", "#E7B800", "#FC4E07"), addEllipses = TRUE, legend.title = "Control")
 ```
+
+![scree.png]({{ site.baseurl }}/images/scree.png)
+
+![pca.png]({{ site.baseurl }}/images/pca.png)
+
+![cluster.png]({{ site.baseurl }}/images/cluster.png)
+
+![group.png]({{ site.baseurl }}/images/group.png)
 
 From the constructed scree plot, we gathered that more than 65% of the variance is cumulatively explained through the first two principal components. We went on to cluster PC1 and PC2 along partisan composition, and graphed each of the 6 variables along a correlation circle. Lastly, we used Principal Component Analysis to visualize the individual principal components by party control. 
