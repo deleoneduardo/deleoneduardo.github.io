@@ -39,7 +39,7 @@ data = data %>% left_join(election, by = "state")
 data = data %>% mutate(party = ifelse(vote == "Democrat", 1, 0))
 ```
 
-This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single dataset named `data`.
+This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single data set named `data`.
 
 ## EDA
 
