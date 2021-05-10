@@ -4,7 +4,7 @@ title: Exploratory Data Analysis in R
 author: Eduardo De Leon
 ---
 
-I explore two data sets on health economics to identifying or discover the trends and patterns inherent in the data using data wrangling and visualization. 
+I explore two data sets on health economics to identifying and discover the trends and patterns inherent in the data using data wrangling and visualization. 
 
 # Introduction
 
