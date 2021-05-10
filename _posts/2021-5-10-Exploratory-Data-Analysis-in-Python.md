@@ -10,7 +10,7 @@ I explore the library Seaborn for making statistical graphics in Python. I use t
  
 To perform data analysis, I imported the data set from the package seaborn as `sns`.
 
-```
+```python
 # Import package pandas
 import pandas as pd
 
@@ -24,7 +24,7 @@ data = sns.load_dataset("tips")
 
 # Data Wrangling
 
-```
+```python
 # Number of rows
 print(data.shape[0])
 
@@ -32,7 +32,7 @@ print(data.shape[0])
 print(data.shape[1])
 ```
 
-```
+```python
 244
 7
 ```
@@ -41,7 +41,7 @@ After the author tidied the data, there are 244 observations and 7 variables tha
 
 # Data Analysis on Numerical Variable
 
-```
+```python
 # Average total bill 
 print(statistics.mean(data['total_bill']))
 
@@ -49,17 +49,17 @@ print(statistics.mean(data['total_bill']))
 sns.relplot(data = data, x = "total_bill", y = "tip")
 ```
 
-```
+```python
 19.78594262295082
 ```
 
-![output_9_2.png](output_9_2.png)
+![output_9_2.png](images/output_9_2.png)
 
 We see that the average total bill throughout the day was 19.78 dollars. Furthermore, it appears `tip` and `total_bill` have a linear relationship.
 
 # Data Analysis on Categorical Variable
 
-```
+```python
 # Average total bill during Friday
 print(data.groupby('day').std()['total_bill'])
 print(data.groupby('day').mean()['total_bill'])
@@ -68,7 +68,7 @@ print(data.groupby('day').mean()['total_bill'])
 sns.catplot(data = data, x = "day", y = "total_bill")
 ```
 
-```
+```python
     day
     Thur    7.886170
     Fri     8.302660
@@ -83,6 +83,6 @@ sns.catplot(data = data, x = "day", y = "total_bill")
     Name: total_bill, dtype: float64
 ```
 
-![output_12_2.png](output_12_2.png)
+![output_12_2.png](images/output_12_2.png)
 
 From the strip plot, we see that Sunday has the largest total bills, on average, but Saturday has a larger spread of values. In context, this can come beneficial to a business owner. In this manner, we are able to apply data anlytics to the growth of businesses.
