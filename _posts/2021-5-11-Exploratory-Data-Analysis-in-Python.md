@@ -18,6 +18,8 @@ import statistics
 data = pd.read_excel (r'C:\Users\eduar\Documents\Website\Happiness.xlsx')
 ```
 
+To perform data analysis, I imported the pandas, seaborn, and statistics packages. Then, I imported my local spreadsheet on happiness and obesity.
+
 # Data Wrangling
 
 ```python
