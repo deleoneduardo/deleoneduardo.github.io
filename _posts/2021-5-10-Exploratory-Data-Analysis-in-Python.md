@@ -10,7 +10,7 @@ I explore the library Seaborn for making statistical graphics in Python. I use t
  
 To perform data analysis, I imported the data set from the package seaborn as `sns`.
 
-```python
+```
 # Import package pandas
 import pandas as pd
 
@@ -24,8 +24,7 @@ data = sns.load_dataset("tips")
 
 # Data Wrangling
 
-
-```python
+```
 # Number of rows
 print(data.shape[0])
 
@@ -42,7 +41,7 @@ After the author tidied the data, there are 244 observations and 7 variables tha
 
 # Data Analysis on Numerical Variable
 
-```python
+```
 # Average total bill 
 print(statistics.mean(data['total_bill']))
 
@@ -60,7 +59,7 @@ We see that the average total bill throughout the day was 19.78 dollars. Further
 
 # Data Analysis on Categorical Variable
 
-```python
+```
 # Average total bill during Friday
 print(data.groupby('day').std()['total_bill'])
 print(data.groupby('day').mean()['total_bill'])
