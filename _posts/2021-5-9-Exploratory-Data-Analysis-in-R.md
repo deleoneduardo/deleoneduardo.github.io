@@ -43,7 +43,7 @@ party = read_excel("party.xlsx")
 party = party %>% rename("control" = "State Control")
 ```
 
-This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single data set named data.
+This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single data set named `data`.
 
 # Join/Merge
 
