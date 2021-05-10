@@ -82,17 +82,17 @@ states %>% group_by(Party = control) %>% summarise(Mean = mean(dental), SD = sd(
 states %>% group_by(Party = control) %>% summarise(Mean = mean(clinical), SD = sd(clinical), Variance = var(clinical), Min = min(clinical), Q1 = quantile(clinical, probs = 0.25), Median = median(clinical), Q3 = quantile(clinical, probs = 0.75), Max = max(clinical), IQR = IQR(clinical), Count = n()) %>% kbl(caption = "Physician/Clinical Services Per Capita") %>% kable_classic(full_width = F, html_font = "Cambria")
 ```
 
-![income.jpg]({{ site.baseurl }}/images/income.png)
+![income.jpg]({{ site.baseurl }}/images/income.jpg)
 
-![private.jpg]({{ site.baseurl }}/images/private.png)
+![private.jpg]({{ site.baseurl }}/images/private.jpg)
 
-![medicare.jpg]({{ site.baseurl }}/images/medicare.png)
+![medicare.jpg]({{ site.baseurl }}/images/medicare.jpg)
 
-![medicaid.jpg]({{ site.baseurl }}/images/medicaid.png)
+![medicaid.jpg]({{ site.baseurl }}/images/medicaid.jpg)
 
-![dental.jpg]({{ site.baseurl }}/images/dental.png)
+![dental.jpg]({{ site.baseurl }}/images/dental.jpg)
 
-![clinical.jpg]({{ site.baseurl }}/images/clinical.png)
+![clinical.jpg]({{ site.baseurl }}/images/clinical.jpg)
 
 For the 6 numeric variables examined, we gathered a summary of 10 different statistics grouping by the categorical variable of state partisan composition in 2013. Furthermore, I used the `kable` package to visualize these summary statistics in easy-to-read tables. 
 
