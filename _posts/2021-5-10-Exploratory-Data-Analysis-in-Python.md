@@ -32,7 +32,7 @@ print(data.shape[0])
 print(data.shape[1])
 ```
 
-```python
+```
 244
 7
 ```
@@ -49,7 +49,7 @@ print(statistics.mean(data['total_bill']))
 sns.relplot(data = data, x = "total_bill", y = "tip")
 ```
 
-```python
+```
 19.78594262295082
 ```
 
@@ -68,7 +68,7 @@ print(data.groupby('day').mean()['total_bill'])
 sns.catplot(data = data, x = "day", y = "total_bill")
 ```
 
-```python
+```
     day
     Thur    7.886170
     Fri     8.302660
