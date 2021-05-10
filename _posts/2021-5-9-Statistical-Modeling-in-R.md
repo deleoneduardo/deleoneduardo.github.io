@@ -47,6 +47,8 @@ This data is tidy because every column is a variable and every row is an observa
 chart.Correlation(data %>% select(inequality_ratio, private, medicare, medicaid, dental, clinical), histogram = TRUE)
 ```
 
+![corrplot.png]({{ site.baseurl }}/images/corrplot.png)
+
 The correlation matrix above shows the distribution of each variable on the diagonal. On the bottom of the diagonal, the bivariate scatter plots with a fitted line are displayed. On the top of the diagonal, the value of the correlation plus the significance level as stars are displayed. Finally, each significance level is associated to an asterisk symbol.
 
 ## MANOVA
@@ -171,8 +173,7 @@ data$prob1 = predict(mylogit, type = "response")
 data$predicted = ifelse(data$prob1 > 0.5, "Democratic", "Republican")
 
 # Confusion matrix: compare true to predicted condition
-table(true_condition = data$party, predicted_condition = data$predicted) %>% 
-  addmargins
+table(true_condition = data$party, predicted_condition = data$predicted) %>% addmargins
 
 # Accuracy = (TN + TP)/(TN + FP + FN + TP)
 (21 + 18)/(21 + 3 + 9 + 18)
@@ -191,8 +192,56 @@ ROCplot1 = ggplot(data) + geom_roc(aes(d = party, m = prob1), cutoffs.at = list(
 ROCplot1
 
 # Calculate the area under the curve 
-calc_auc(ROCplot1)
+calc_auc(ROCplot1)$AUC
 ```
+
+```
+Call:
+glm(formula = party ~ inequality_ratio + private + medicare + medicaid + dental + clinical, family = "binomial", data = data)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.8465  -0.9412   0.1754   0.7585   2.0276  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)   
+(Intercept)      -5.8137668  4.2306624  -1.374  0.16938   
+inequality_ratio -0.0230768  0.0576956  -0.400  0.68918   
+private           0.0011401  0.0009830   1.160  0.24613   
+medicare          0.0009924  0.0005018   1.978  0.04794 * 
+medicaid         -0.0004020  0.0002667  -1.507  0.13174   
+dental            0.0304332  0.0110810   2.746  0.00602 **
+clinical         -0.0019061  0.0019850  -0.960  0.33693   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 70.524  on 50  degrees of freedom
+Residual deviance: 50.457  on 44  degrees of freedom
+AIC: 64.457
+
+Number of Fisher Scoring iterations: 5
+
+     (Intercept) inequality_ratio          private         medicare         medicaid           dental         clinical 
+     0.002986161      0.977187453      1.001140706      1.000992933      0.999598064      1.030900986      0.998095680 
+
+              predicted_condition
+true_condition Democratic Republican Sum
+           0            6         18  24
+           1           18          9  27
+           Sum         24         27  51           
+
+[1] 0.7647059
+[1] 0.8571429
+[1] 0.6666667
+[1] 0.875
+[1] 0.8101852
+```
+
+![density.png]({{ site.baseurl }}/images/density.png)
+
+![roc.png]({{ site.baseurl }}/images/roc.png)
 
 Controlling for private, Medicaid, and dental health care costs, for every 1-unit increase in the income inequality ratio, the odds of a state voting for the Democratic party change by a factor of 0.9771875 (i.e., decrease by 2.28%).
 
