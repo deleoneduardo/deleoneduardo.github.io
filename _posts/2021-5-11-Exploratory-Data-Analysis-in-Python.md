@@ -28,9 +28,10 @@ print(data.shape[0])
 print(data.shape[1])
 ```
 
-    51
-    14
-    
+```
+51
+14
+```
 
 The data was tidied in spreadsheet format beforehand. There are 51 observations and 14 variables that describe each observation's characteristics, including control variables. 
 
@@ -47,10 +48,10 @@ sns.regplot(data = data, x = 'Adult Obesity, 2019', y = 'Happiness').set(title =
 ```
 
 ```
-    31.90392156862745
-    65.09019607843138
+31.90392156862745
+65.09019607843138
 
-    [Text(0.5, 1.0, 'Happiness and Adult Obesity Rates in the United States\n')]
+[Text(0.5, 1.0, 'Happiness and Adult Obesity Rates in the United States\n')]
 ```
 
 ![output_8_2.png](images/output_8_2.png)
