@@ -72,6 +72,59 @@ pairwise.t.test(data$dental, data$party, p.adj="none")
 0.01/7
 ```
 
+```
+          Df  Pillai approx F num Df den Df   Pr(>F)   
+party      1 0.25435   3.9228      4     46 0.008016 **
+Residuals 49                                           
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ Response inequality_ratio :
+            Df  Sum Sq Mean Sq F value Pr(>F)
+party        1  130.11 130.108  2.4579 0.1234
+Residuals   49 2593.83  52.935               
+
+ Response private :
+            Df   Sum Sq Mean Sq F value Pr(>F)  
+party        1  2923371 2923371  5.0147 0.0297 *
+Residuals   49 28565073  582961                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+ Response medicaid :
+            Df    Sum Sq Mean Sq F value Pr(>F)
+party        1   1750815 1750815  0.5855 0.4478
+Residuals   49 146533355 2990477               
+
+ Response dental :
+            Df Sum Sq Mean Sq F value   Pr(>F)   
+party        1  36053   36053  10.537 0.002113 **
+Residuals   49 167653    3421                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  data$private and data$party 
+
+  0   
+1 0.03
+
+P value adjustment method: none 
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  data$dental and data$party 
+
+  0     
+1 0.0021
+
+P value adjustment method: none 
+[1] 0.3016627
+[1] 0.0001428571
+[1] 0.001428571
+```
+
 Since the MANOVA was significant, we performed univariate ANOVA to find responses showing a mean difference across groups, and performed post-hoc t-tests to find which groups differ. We calculated 7 tests, so the probability of at least one type I error is 0.3016627039.
 
 After the Bonferroni correction, only one p-value that had been statistically significant is still statistically significant (the ANOVA on `private` healthcare cost variable).
@@ -142,6 +195,74 @@ samp_SEs = replicate(5000, {
 
 # Estimated standard errors
 samp_SEs %>% t %>% as.data.frame %>% summarize_all(sd)
+```
+
+![residuals.png]({{ site.baseurl }}/images/residuals.png)
+
+![qq.png]({{ site.baseurl }}/images/qq.png)
+
+```
+Call:
+lm(formula = inequality_ratio ~ private + medicare + medicaid + dental + clinical + far_west + great_lakes + mideast + new_england + plains + rocky_mountains + southeast + southwest + age + white + black + asian + native + hispanic, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9.1249 -2.9801 -0.2786  2.7958 12.6902 
+
+Coefficients: (1 not defined because of singularities)
+                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     -8.654e+01  4.953e+01  -1.747 0.090190 .  
+private          5.090e-04  1.715e-03   0.297 0.768537    
+medicare         4.901e-03  1.171e-03   4.186 0.000207 ***
+medicaid        -5.834e-04  7.793e-04  -0.749 0.459611    
+dental           4.894e-02  2.039e-02   2.400 0.022386 *  
+clinical        -1.073e-02  6.058e-03  -1.770 0.086173 .  
+far_west         8.038e-02  7.659e+00   0.010 0.991692    
+great_lakes      7.044e-01  9.279e+00   0.076 0.939966    
+mideast         -5.382e+00  9.191e+00  -0.586 0.562227    
+new_england     -8.005e+00  8.902e+00  -0.899 0.375250    
+plains           1.926e+00  7.494e+00   0.257 0.798844    
+rocky_mountains  2.588e+00  7.430e+00   0.348 0.729885    
+southeast       -5.409e+00  7.961e+00  -0.679 0.501750    
+southwest               NA         NA      NA       NA    
+age              8.126e-01  6.746e-01   1.205 0.237220    
+white           -5.498e-07  6.329e-07  -0.869 0.391488    
+black            2.563e-06  2.202e-06   1.164 0.253156    
+asian           -4.885e-06  3.637e-06  -1.343 0.188730    
+native          -2.286e-06  2.783e-05  -0.082 0.935043    
+hispanic         2.332e-06  1.269e-06   1.838 0.075434 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.771 on 32 degrees of freedom
+Multiple R-squared:  0.6088,	Adjusted R-squared:  0.3887 
+F-statistic: 2.766 on 18 and 32 DF,  p-value: 0.005835
+
+
+t test of coefficients:
+
+                   Estimate  Std. Error t value Pr(>|t|)   
+(Intercept)     -8.6537e+01  9.6780e+01 -0.8942 0.377912   
+private          5.0903e-04  4.3915e-03  0.1159 0.908446   
+medicare         4.9006e-03  1.6440e-03  2.9810 0.005453 **
+medicaid        -5.8335e-04  9.2359e-04 -0.6316 0.532126   
+dental           4.8937e-02  2.4249e-02  2.0181 0.052027 . 
+clinical        -1.0726e-02  9.5820e-03 -1.1194 0.271312   
+far_west         8.0377e-02  1.1320e+01  0.0071 0.994379   
+great_lakes      7.0437e-01  1.4069e+01  0.0501 0.960382   
+mideast         -5.3825e+00  1.2888e+01 -0.4176 0.678998   
+new_england     -8.0049e+00  1.2841e+01 -0.6234 0.537458   
+plains           1.9257e+00  1.3449e+01  0.1432 0.887044   
+rocky_mountains  2.5879e+00  1.5277e+01  0.1694 0.866548   
+southeast       -5.4087e+00  1.3211e+01 -0.4094 0.684975   
+age              8.1260e-01  1.1659e+00  0.6970 0.490859   
+white           -5.4976e-07  7.9979e-07 -0.6874 0.496794   
+black            2.5628e-06  2.0497e-06  1.2503 0.220260   
+asian           -4.8846e-06  7.2064e-06 -0.6778 0.502756   
+native          -2.2864e-06  4.6721e-05 -0.0489 0.961273   
+hispanic         2.3323e-06  3.0361e-06  0.7682 0.448002   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 ```
 
 A regression model to predict the average income of the lower 99% of income earners from healthcare costs was built. Interpreting the coefficients, I used five components to health care access, while using region, age, and race as control variables. In this case, the variables `private`, `medicare`, `medicaid`, `dental`, and `clinical` are used to predict the variable `inequality_ratio`.
