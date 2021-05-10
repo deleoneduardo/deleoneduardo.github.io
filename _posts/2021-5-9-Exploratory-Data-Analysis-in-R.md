@@ -43,7 +43,7 @@ party = read_excel("party.xlsx")
 party = party %>% rename("control" = "State Control")
 ```
 
-This data is tidy because every column is a variable and every row is an observation. Furthermore, I merged the data into a single data set named `data`.
+I merged the data into a single data set named `data`. Therefore, this data is tidy because every column is a variable and every row is an observation. 
 
 # Join/Merge
 
@@ -96,6 +96,8 @@ states %>% group_by(Party = control) %>% summarise(Mean = mean(clinical), SD = s
 
 For the 6 numeric variables examined, we gathered a summary of 10 different statistics grouping by the categorical variable of state partisan composition in 2013. Furthermore, I used the `kable` package to visualize these summary statistics in easy-to-read tables. 
 
+On average, private health insurance spending and clinical services are much higher than with any other political affiliation in states with Democratic Party affiliations. Furthermore, in the table describing U.S. income inequality, we see that there is greater income inequality in states affiliated with the Democratic Party, on average, than in states affiliated with the Republican Party. However, income inequality among Democratic states has greater variation than Republican states, meaning that other factors might be involved. 
+
 # Visualizations
 
 ```
@@ -116,9 +118,9 @@ ggplot(states %>% select(medicare, inequality_ratio, control), aes(x = medicare,
 
 ![plot2.png]({{ site.baseurl }}/images/plot2.png)
 
-The first plot shows a heatmap that provides a correlation matrix for all the variables in `states`. There is a 0.53 correlation between `inequality_ratio` and `medicaid`, and there is a -0.42 correlation between `Hospice` and `Bottom`. Therefore, we constructed two additional plots that present the relationships among these variables. 
+The first plot shows a heatmap that provides a correlation matrix for the 5 numerical health care variables in `states`. There is a 0.05 correlation between `inequality_ratio` and `medicaid`, and there is a 0.48 correlation between `inequality_ratio` and `medicare`. Therefore, we constructed two additional plots that present the relationships among these variables. 
 
-In the Medicaid-Ratio plot, we see that there is a greater magnitude in income inequality in states where Medicaid costs are higher. Finally, in the Bottom-Hospice plot, we see that Republican states with a lesser average income among the bottom 99% population tend to have higher hospice prices for patients. 
+In the first plot, we see that there is a greater magnitude in income inequality in blue states where Medicaid costs are higher. Finally, in the second plot, we see that all states with a lesser average income inequality to have lesser Medicare prices for beneficiaries. 
 
 # Dimensionality Reduction
 
