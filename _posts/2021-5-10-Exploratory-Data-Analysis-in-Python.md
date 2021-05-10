@@ -8,9 +8,7 @@ I explore the library Seaborn for making statistical graphics in Python. I use t
 
 # Introduction
  
-
 To perform data analysis, I imported the data set from the package seaborn as `sns`.
-
 
 ```python
 # Import package pandas
@@ -35,14 +33,14 @@ print(data.shape[0])
 print(data.shape[1])
 ```
 
-    244
-    7
-    
+```
+244
+7
+```
 
 After the author tidied the data, there are 244 observations and 7 variables that describe each observation's characteristics. 
 
 # Data Analysis on Numerical Variable
-
 
 ```python
 # Average total bill 
@@ -52,26 +50,15 @@ print(statistics.mean(data['total_bill']))
 sns.relplot(data = data, x = "total_bill", y = "tip")
 ```
 
-    19.78594262295082
-    
+```
+19.78594262295082
+```
 
-
-
-
-    <seaborn.axisgrid.FacetGrid at 0x280fe663d00>
-
-
-
-
-    
-![png](output_9_2.png)
-    
-
+![scatterplot.png](output_9_2.png)
 
 We see that the average total bill throughout the day was 19.78 dollars. Furthermore, it appears `tip` and `total_bill` have a linear relationship.
 
 # Data Analysis on Categorical Variable
-
 
 ```python
 # Average total bill during Friday
@@ -82,6 +69,7 @@ print(data.groupby('day').mean()['total_bill'])
 sns.catplot(data = data, x = "day", y = "total_bill")
 ```
 
+```
     day
     Thur    7.886170
     Fri     8.302660
@@ -94,19 +82,8 @@ sns.catplot(data = data, x = "day", y = "total_bill")
     Sat     20.441379
     Sun     21.410000
     Name: total_bill, dtype: float64
-    
+```
 
-
-
-
-    <seaborn.axisgrid.FacetGrid at 0x280fe6cc9a0>
-
-
-
-
-    
-![png](output_12_2.png)
-    
-
+![stripplot.jpg](output_12_2.png)
 
 From the strip plot, we see that Sunday has the largest total bills, on average, but Saturday has a larger spread of values. In context, this can come beneficial to a business owner. In this manner, we are able to apply data anlytics to the growth of businesses.
