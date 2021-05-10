@@ -151,9 +151,9 @@ fviz_pca_ind(states_pca, geom.ind = "point", col.ind = states$control, palette =
 
 ![scree.png]({{ site.baseurl }}/images/scree.png)
 
-![pca.png]({{ site.baseurl }}/images/pca.png)
-
 ![cluster.png]({{ site.baseurl }}/images/cluster.png)
+
+![pca.png]({{ site.baseurl }}/images/pca.png)
 
 ![group.png]({{ site.baseurl }}/images/group.png)
 
