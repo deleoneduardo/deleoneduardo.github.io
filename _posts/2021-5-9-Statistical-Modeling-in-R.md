@@ -49,7 +49,9 @@ chart.Correlation(data %>% select(inequality_ratio, private, medicare, medicaid,
 
 ![corrplot.png]({{ site.baseurl }}/images/corrplot.png)
 
-The correlation matrix above shows the distribution of each variable on the diagonal. On the bottom of the diagonal, the bivariate scatter plots with a fitted line are displayed. On the top of the diagonal, the value of the correlation plus the significance level as stars are displayed. Finally, each significance level is associated to an asterisk symbol.
+The correlation matrix above shows the distribution of each variable on the diagonal. On the bottom of the diagonal, the bivariate scatterplots with a fitted line are displayed. On the top of the diagonal, the value of the correlation plus the significance level as stars are displayed. Finally, each significance level is associated to an asterisk symbol.
+
+The correlation between the income inequality ratio and Medicare costs per beneficiary is 0.48, and it is statistically significant at the 0.001 level of significance. Moreover, private health care spending per capita, Medicaid costs, dental services costs, and clinical costs all have a positive correlation that is statistically significant at the 0.05 level of significance. Lastly, every bivariate model displays a positive, linear association, except for the one depicting the relationship between Medicare and Medicaid costs. 
 
 ## MANOVA
 
@@ -153,6 +155,23 @@ for(i in 1:5000){
 # Consider the vector t as a data frame
 data.frame(t) %>% ggplot(aes(t)) + geom_histogram(aes(y=..density..), bins = 30) + stat_function(fun = dt, args=list(df = 49), geom="line")
 ```
+
+```
+[1] 7.426107
+
+	One Sample t-test
+
+data:  data$party
+t = 0.41667, df = 50, p-value = 0.6787
+alternative hypothesis: true mean is not equal to 0.5
+95 percent confidence interval:
+ 0.3876311 0.6711924
+sample estimates:
+mean of x 
+0.5294118 
+```
+
+![dist.png]({{ site.baseurl }}/images/dist.png)
 
 The null hypothesis states that mu = 0.5, when in reality, this proportion is 0.5294. Our p-value of 0.678 is statistically insignificant. Thus. we fail to reject the null hypothesis and have convincing evidence for the null. 
 
@@ -263,15 +282,19 @@ native          -2.2864e-06  4.6721e-05 -0.0489 0.961273
 hispanic         2.3323e-06  3.0361e-06  0.7682 0.448002   
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Intercept)	private		medicare	medicaid	dental		clinical	far_west	great_lakes	mideast		new_england 	plains		rocky_mountains		southeast	southwest		age			white			black			asian			native			hispanic
+80.08322	0.003204984	0.001466128	0.001005387	0.0250477	0.008683493	NA		NA		NA		NA		NA		NA			NA		NA			0.9990017		9.310076e-07		2.641963e-06		7.397451e-06		4.074192e-05		2.696451e-06
+
 ```
 
-A regression model to predict the average income of the lower 99% of income earners from healthcare costs was built. Interpreting the coefficients, I used five components to health care access, while using region, age, and race as control variables. In this case, the variables `private`, `medicare`, `medicaid`, `dental`, and `clinical` are used to predict the variable `inequality_ratio`.
+In this case, the variables `private`, `medicare`, `medicaid`, `dental`, and `clinical` are used to predict the variable `inequality_ratio`. In the empirical results, the independent variable `medicare` has a positive coefficient of 0.0049 which means that as Medicare costs increase by one dollar, per beneficiary, the income inequality within a state increases by 0.0049 points (p-value < 0.05). Dental costs are also shown in the empirical results as having sizable impacts on the income inequality ratio. As dental services prices increase by one dollar, per capita, the ratio between the average income of the top 1% and the bottom 99% of income earners increases by 0.0489 (p-value < 0.05). Private health insurance per enrollee, Medicaid per enrollee, physician and clinical services per capita, age, region, and race are all statistically insignificant at the 5% level of significance.
 
 Since the R-squared is equal to 0.6088, our model explains for 60.88% of the variation in the response. 
 
-The assumptions for linear regression were met by plotting the residuals against the fittest values to check for nonlinearity and equal variance, and by constructing a Q-Q plot to check for normality of the residuals. 
+The assumption of normality appears to be a fairly safe assumption. The points seem to fall about a straight line in the Q-Q plot. The residual plot appears to show heteroskedasticity, which means that the variability in the response is changing as the predicted value increases. The observations with larger errors will have more influence on the fitted model. Since there is no constant variance, but the model is approximately normally distributed (with a mean of zero), and the data points are independent of one another, then the model is said to be linear.
 
-Then, we calculated the robust standard errors and bootstrapped standard errors. The bootstrapped standard errors are lower than the robust standard errors. Conversely, the robust standard errors are lower compared to the original standard errors of the model. The p-values of the robust standard errors, however, are higher than the original p-values from the model.
+Then, we calculated the robust standard errors and bootstrapped standard errors. The bootstrapped standard errors are lower than the robust standard errors, and higher than the standard errors of the original fit. Conversely, the robust standard errors are higher compared to the original standard errors of the model. Hence, the p-values of the robust standard errors are higher than the original p-values. 
 
 ## Logistic Regression
 
