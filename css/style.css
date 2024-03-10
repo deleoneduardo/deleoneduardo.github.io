@@ -1,4 +1,79 @@
 html {
     height: 100%;
     width: 100%;
-  }
+    font-family: "Rubik";
+}
+
+.rubik-font {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.separator {
+    border-bottom: 1px solid #E0E0E0;
+    margin: 20px 0;
+}
+
+.navbar {
+    overflow: hidden;
+    padding: 10px;
+    color: #353535;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.logo, .nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    color: #353535;
+    text-decoration: none;
+}
+
+.geographic-reach {
+    color: #ffffff;
+    background-color: #ff3f33;
+    text-align: center;
+    height: 150px;
+    width: 100%;
+}
+
+.college-scroll {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+}
+
+#bold-text {
+    font-weight: 450;
+}
+
+#summary {
+    font-size: 25px;
+    font-weight: 450;
+}
+
+#description {
+    font-size: 15px;
+}
+
+#summary span, #description span {
+    color: #FF3F33
+}
