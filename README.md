@@ -19,7 +19,7 @@ The intended users for this web app are 14-22 year olds in the United States who
 ## Usage
 
 1. **Visit the Website:**
-   - Access the web app at [YourWebAppURL.com](#).
+   - Access the web app at [deleoneduardo.github.io](#).
 
 2. **Explore Major-Minor Costs:**
    - Use the intuitive interface to compare the costs associated with different major-minor combinations at various US public universities.
