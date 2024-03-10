@@ -2,7 +2,11 @@
 
 ## Overview
 
-The College Planning Web App is designed to simplify the college planning process, especially for 14-22 year olds in the United States. The main features include checking the cost of different major-minor combinations, exploring various ways to save money for class credits, and utilizing machine learning for optimizing difficulty and time allocation.
+DegreeCat is designed to simplify the college planning process, especially for early college students in the United States. The main features include checking the cost of different major-minor combinations, exploring various ways to save money for class credits, and utilizing machine learning for optimizing difficulty and time allocation.
+
+![Home](img/IMG_2843.JPG)
+![Account](img/IMG_2845.JPG)
+![Planner](img/IMG_2847.JPG)
 
 ## Key Features
 
@@ -14,7 +18,7 @@ The College Planning Web App is designed to simplify the college planning proces
 
 ## Target Audience
 
-The intended users for this web app are 14-22 year olds in the United States who are navigating the college planning process. The goal is to bridge the human-computer interaction gap commonly faced by high school and college students when first engaging with college planning tools.
+The intended users for this web app are people looking to attend college in the United States who are navigating the college planning process. The goal is to bridge the human-computer interaction gap commonly faced by high school and college students when first engaging with college planning tools.
 
 ## Usage
 
