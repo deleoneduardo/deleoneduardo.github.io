@@ -53,6 +53,9 @@ html, body {
     color: #FFFFFF;
     background-color: #FF3F33;
     text-align: center;
+}
+
+#compatability {
     font-size: 25px;
     font-weight: 350;
 }
