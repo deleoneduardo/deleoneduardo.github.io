@@ -2,8 +2,8 @@ html, body {
     height: 100%;
     width: 100%;
     font-family: "Rubik";
-    margin: 0;
-    padding: 0;
+    margin: 0%;
+    padding: 0%;
     box-sizing: border-box;
 }
 
@@ -18,10 +18,11 @@ html, body {
     border-bottom: 1px solid #E0E0E0;
 }
 
+/* Navigation bar */
 .navbar {
     display: flex;
     overflow: hidden;
-    padding: 5px 30px 5px;
+    padding: 5px 10% 5px 25px;
     color: #353535;
     justify-content: space-between;
     align-items: center;
@@ -49,6 +50,26 @@ html, body {
     flex-direction: column;
 }
 
+/* Explanation */
+.explanation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 5%;
+}
+
+.explanation img {
+    width: 200px;
+    margin-right: 10px;
+}
+
+@media (min-width: 600px) {
+    .explanation img {
+        width: 280px;
+    }
+}
+
+/* Availability */
 .availability {
     color: #FFFFFF;
     background-color: #FF3F33;
@@ -57,7 +78,7 @@ html, body {
 
 #compatability {
     font-size: 25px;
-    font-weight: 350;
+    font-weight: 400;
 }
 
 .institutions {
@@ -70,7 +91,7 @@ html, body {
 }
 
 #bold-text {
-    font-weight: 450;
+    font-weight: 475;
 }
 
 #summary {
@@ -78,10 +99,10 @@ html, body {
     font-weight: 450;
 }
 
-#description {
-    font-size: 15px;
+#summary span {
+    color: #FF3F33
 }
 
-#summary span, #description span {
-    color: #FF3F33
+#description {
+    font-size: 15px;
 }
