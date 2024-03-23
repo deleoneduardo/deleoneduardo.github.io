@@ -21,11 +21,15 @@ html, body {
 /* Navigation bar */
 .navbar {
     display: flex;
-    overflow: hidden;
-    padding: 5px 10% 5px 25px;
-    color: #353535;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
+    padding: 10px 25px;
+    color: #353535;
+}
+
+#bold-text {
+    font-weight: 475;
 }
 
 .logo img {
@@ -39,12 +43,27 @@ html, body {
     list-style: none;
 }
 
+.menu {
+    display: flex;
+    padding-right: 10px;
+}
+
 .nav-links a {
-    margin-left: 20px;
+    margin: 20px;
     color: #353535;
     text-decoration: none;
 }
 
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        
+    }
+}
+
+
+
+/* Webpage */
 .overview {
     display: flex;
     flex-direction: column;
@@ -61,24 +80,45 @@ html, body {
 .explanation img {
     width: 200px;
     margin-right: 10px;
+    transition: width 0.5s ease; /* Smooth transition for the transform property */
 }
 
-@media (min-width: 600px) {
+@media (min-width: 768px) {
     .explanation img {
         width: 280px;
     }
 }
 
-/* Availability */
-.availability {
+button {
+    background-color: #FFFFFF;
+    color: #FF3F33;
+    border: 2px solid #FF3F33;
+    padding: 15px 20px;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin: 40px auto;
+    display: block;
+}
+
+button:hover {
+    background-color: #FF3F33;
+    border-color: #FF3F33;
+    color: #FFFFFF
+}
+
+/* Red block */
+.red-block {
     color: #FFFFFF;
     background-color: #FF3F33;
     text-align: center;
 }
 
-#compatability {
+#compatible {
     font-size: 25px;
-    font-weight: 400;
+    font-weight: 400px;
+    padding: 0% 5%;
 }
 
 .institutions {
@@ -88,10 +128,6 @@ html, body {
     flex-wrap: wrap;
     padding: 0px 20px 25px;
     gap: 5%;
-}
-
-#bold-text {
-    font-weight: 475;
 }
 
 #summary {
