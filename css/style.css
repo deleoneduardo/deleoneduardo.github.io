@@ -52,16 +52,25 @@ html, body {
     margin: 20px;
     color: #353535;
     text-decoration: none;
+    overflow: hidden;
+}
+
+a:hover {
+    color: #FF3F33;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 @media screen and (max-width: 768px) {
     .nav-links {
         display: none;
-        
     }
 }
-
-
 
 /* Webpage */
 .overview {
