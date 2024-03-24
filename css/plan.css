@@ -1,0 +1,76 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: "Rubik";
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.rubik-font {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.separator {
+    border-bottom: 1px solid #E0E0E0;
+}
+
+/* Navigation bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px 25px;
+    color: #353535;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+    position: sticky;
+    top: 0;
+}
+
+.logo img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.logo, .menu-bar {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+#bold-text {
+    font-weight: 475;
+}
+
+#bold-text a {
+    text-decoration: none;
+    color: #353535;
+    overflow: hidden;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu-bar a {
+    margin: 20px;
+    color: #353535;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+a:hover {
+    color: #FF3F33;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .menu-bar {
+        display: none;
+    }
+}

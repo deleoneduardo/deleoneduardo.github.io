@@ -26,10 +26,16 @@ html, body {
     overflow: hidden;
     padding: 10px 25px;
     color: #353535;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+    position: sticky;
+    top: 0;
 }
 
-#bold-text {
-    font-weight: 475;
+.logo, .menu-bar {
+    display: flex;
+    align-items: center;
+    list-style: none;
 }
 
 .logo img {
@@ -37,18 +43,21 @@ html, body {
     margin-right: 10px;
 }
 
-.logo, .nav-links {
-    display: flex;
-    align-items: center;
-    list-style: none;
+#bold-text a {
+    color: #353535;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+#bold-text {
+    font-weight: 475;
 }
 
 .menu {
     display: flex;
-    padding-right: 10px;
 }
 
-.nav-links a {
+.menu-bar a {
     margin: 20px;
     color: #353535;
     text-decoration: none;
@@ -57,17 +66,11 @@ html, body {
 
 a:hover {
     color: #FF3F33;
-}
-
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
-    .nav-links {
+    .menu-bar {
         display: none;
     }
 }
