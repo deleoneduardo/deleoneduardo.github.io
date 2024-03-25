@@ -39,34 +39,45 @@
     <div class="search-menu">
         <div class="search-controls">
             <div class="search-degree">
-                <label for="degree">Major or Minor</label>
-                <input type="text" id="degree" name="degree" placeholder="Ex. B.S. in Electrical and Computer Engineering">
+                <label id="asterisk" for="degree">Major or Minor <span>*</span></label>
+                <input type="text" id="degree" name="degree" placeholder="Ex. B.A. in Chemistry">
             </div>
             <div class="search-university">
                 <label for="university">University</label>
-                <input type="text" id="university" name="university" placeholder="Ex. Texas A&M University--College Station">
+                <input type="text" id="university" name="university" placeholder="Ex. Texas A&M University">
+            </div>
+            <div class="search-city">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="Ex. Austin">
             </div>
             <div class="search-state">
                 <label for="state">State</label>
                 <input type="text" id="state" name="state" placeholder="Ex. TX">
             </div>
-            <div class="search-total-cost">
-                <label for="total-cost">Total Cost</label>
-                <input type="text" id="total-cost" name="total-cost" placeholder="Ex. $80,000">
+            <div class="search-cost">
+                <label for="cost">Max Cost</label>
+                <input type="text" id="cost" name="total-cost" placeholder="Ex. <$80,000">
             </div>
             <div class="search-button">
                 <button id="generate-search">Search</button>
             </div>
-            <div id="search-results"></div>
-        </div>
-        <div class="search-map">
-            <img src="../img/map.jpg"/>
         </div>
     </div>
 
     <!-- Graduation optimization -->
     <div class="graduate-early">
-        
+        <label for="graduation-semester">Graduation Semester</label>
+        <button class="bar-button disabled">Fall 2024</button>
+        <button class="bar-button disabled">Spring 2025</button>
+        <button class="bar-button disabled">Summer 2025</button>
+        <button class="bar-button disabled">Fall 2025</button>
+        <button class="bar-button disabled">Spring 2026</button>
+        <button class="bar-button">Summer 2026</button>
+        <button class="bar-button">Fall 2026</button>
+        <button class="bar-button">Spring 2027</button>
+        <button class="bar-button">Summer 2027</button>
+        <button class="bar-button">Fall 2027</button>
+        <button class="bar-button">Spring 2028</button>
     </div>
 
     <!-- Degree catalog -->

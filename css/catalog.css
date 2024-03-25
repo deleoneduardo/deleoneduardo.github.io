@@ -75,49 +75,56 @@ a:hover {
     }
 }
 
+/* Search menu */
 .search-menu {
     display: flex;
     border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .search-controls {
     display: grid;
-    margin: 20px;
-    grid-template-rows: 100px 100px 100px 100px 100px;
-    grid-template-columns: 100px 100px 100px 100px 100px;
+    padding: 20px;
+    width: 100%;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
 }
 
-.search-degree {
-    grid-row: span 1;
-    grid-column: span 5;
-    margin-right: 25px;
+.search-degree input,
+.search-university input,
+.search-city input,
+.search-state input,
+.search-cost input {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
 }
 
+.search-degree,
 .search-university {
-    grid-row: span 1;
-    grid-column: span 5;
-    margin-right: 25px;
+    grid-column: span 3;
 }
 
-.search-state {
-    grid-row: span 1;
-    grid-column: span 2;
-    margin-right: 50px;
+#asterisk span {
+    color: #FF3F33
 }
 
-.search-total-cost {
-    grid-row: span 1;
-    grid-column: span 2;
-    margin-right: 25px;
+.search-city, 
+.search-state,
+.search-button {
+    grid-column: span 1;
 }
 
 .search-button {
-    grid-row: span 1;
-    grid-column: span 5;
-    margin-right: 25px;
+    align-self: flex-end;
 }
 
-label {
+.search-cost {
+    grid-column: span 2;
+}
+
+.search-controls label {
     display: block;
     margin-bottom: 10px;
     font-weight: 475;
@@ -132,12 +139,12 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-    outline-style: double;
+    outline-style: solid;
     outline-color: #FF3F33;
     border-color: #FF3F33;
 }
 
-button {
+.search-button button {
     background-color: #FFFFFF;
     color: #FF3F33;
     border: 2px solid #FF3F33;
@@ -146,24 +153,48 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
-    display: block;
+    display: flex;
+    justify-content: center;
+    height: 100%;
     margin: 0px auto;
+    width: 100px;
 }
 
-button:hover {
+.search-button button:hover {
     background-color: #FF3F33;
     border-color: #FF3F33;
     color: #FFFFFF
 }
 
-.search-map {
-    border: solid #353535;
-    width: 100vw;
-    height: 550px;
-    background-image: url('../img/map.jpg');
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
+.graduate-semester {
+    display: flex;
+    flex-direction: row;
+}
+  
+.bar-button {
+    padding: 10px 20px;
+    margin-right: 5px;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #000000;
+    outline: none;
+    cursor: pointer;
     overflow: hidden;
+
+}
+  
+.bar-button.disabled {
+    background-color: #E0E0E0;
+    color: #808080;
+    border-color: #E0E0E0;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+}
+  
+.bar-button:hover:not(.disabled) {
+    background-color: #FF3F33;
+    border-color: #FF3F33;
+    color: #FFFFFF;
 }
