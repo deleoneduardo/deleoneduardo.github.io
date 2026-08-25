@@ -168,10 +168,14 @@ h1 {
 .info-wrap {
   position: relative;
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   vertical-align: .08em;
+  white-space: nowrap;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+
+.info-wrap:is(.is-open, :hover, :focus-within) { z-index: 2147483646; }
 
 .info-tip {
   display: inline-grid;
@@ -205,7 +209,7 @@ h1 {
 
 .info-popover {
   position: absolute;
-  z-index: 80;
+  z-index: 2147483647;
   top: calc(100% + 8px);
   left: 50%;
   width: min(270px, calc(100vw - 32px));
@@ -228,6 +232,19 @@ h1 {
   transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
   visibility: hidden;
   white-space: normal;
+}
+
+.info-popover[popover] {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  transform: none;
+}
+
+.info-popover[popover]:popover-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
 }
 
 .info-wrap.align-left .info-popover { left: 0; transform: translateY(-4px); }
@@ -310,6 +327,11 @@ h1 {
   border-radius: 12px;
   background: var(--surface);
   font-variant-numeric: tabular-nums;
+}
+
+.road-point:has(.info-wrap:is(.is-open, :hover, :focus-within)),
+.details-info-slot:has(.info-wrap:is(.is-open, :hover, :focus-within)) {
+  z-index: 2147483646;
 }
 
 .road-point span, .road-high, .road-safe span {
@@ -458,6 +480,7 @@ h1 {
 
 .repair-editor-shell {
   position: relative;
+  min-width: 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -550,7 +573,12 @@ h1 {
   border-top: 1px solid var(--line);
 }
 
-.repair-row.is-excluded { opacity: .48; }
+.repair-row.is-excluded { opacity: 1; }
+
+.repair-row.is-excluded .repair-toggle-name,
+.repair-row.is-excluded .repair-risk-field,
+.repair-row.is-excluded .repair-cost-field,
+.repair-row.is-excluded .repair-remove { opacity: .48; }
 
 .repair-item-copy {
   display: grid;
@@ -578,11 +606,17 @@ h1 {
 .repair-name {
   width: 100%;
   min-width: 0;
+  min-height: 40px;
   padding: 8px 9px;
   border: 1px solid transparent;
   border-radius: 8px;
   background: transparent;
+  color: var(--ink);
+  font: inherit;
   font-weight: 700;
+  line-height: 1.25;
+  overflow: hidden;
+  resize: none;
 }
 
 .repair-name:hover,
@@ -606,6 +640,12 @@ h1 {
 .uncertainty.low { background: var(--green-soft); color: var(--green); }
 
 .repair-row .number-box { min-height: 40px; }
+
+.repair-field { display: block; min-width: 0; }
+.repair-field-label,
+.repair-remove-text { display: none; }
+.repair-field .uncertainty,
+.repair-cost-field .number-box { width: 100%; box-sizing: border-box; }
 
 .repair-remove {
   width: 38px;
@@ -928,6 +968,9 @@ footer {
   text-align: center;
 }
 
+/* Component span rules must never turn information triggers into block rows. */
+span.info-wrap { display: inline-flex; }
+
 @media (max-width: 760px) {
   .property-switcher {
     display: grid;
@@ -965,8 +1008,8 @@ footer {
     padding-block: 10px;
   }
   .repair-item-copy { grid-column: 1 / -1; }
-  .repair-row .uncertainty { grid-column: 1; justify-self: start; }
-  .repair-row .number-box { grid-column: 2; }
+  .repair-risk-field { grid-column: 1; }
+  .repair-cost-field { grid-column: 2; }
   .repair-remove { grid-column: 3; }
   .add-repair { grid-template-columns: 1fr; }
   .analysis-metrics,
@@ -983,10 +1026,111 @@ footer {
   .proof-details > .details-info-slot { right: 12px; left: auto; }
 }
 
+@media (max-width: 520px) {
+  .repair-editor > summary {
+    min-height: 66px;
+    gap: 8px;
+    padding-block: 10px;
+  }
+  .repair-summary-copy { gap: 8px; }
+  .repair-summary-copy small { display: none; }
+  .repair-chevron {
+    flex-basis: 30px;
+    width: 30px;
+    height: 30px;
+    font-size: 1.25rem;
+  }
+  #repairSummaryTotal {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  .repair-editor-shell > .details-info-slot {
+    top: 25px;
+    left: 91px;
+  }
+  .repair-editor-body {
+    padding: 8px;
+    border-radius: 14px;
+    background: #f7f4ee;
+  }
+  .repair-total-control {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 8px 2px 13px;
+  }
+  .repair-total-control > * { grid-column: 1; }
+  .repair-total-control .number-box { width: 100%; }
+  .repair-list {
+    display: grid;
+    gap: 8px;
+  }
+  .repair-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    grid-template-areas:
+      "item item"
+      "risk cost"
+      "remove remove";
+    gap: 9px 8px;
+    min-height: 0;
+    padding: 11px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: white;
+  }
+  .repair-row.is-excluded { background: #f0eee8; }
+  .repair-item-copy { grid-area: item; }
+  .repair-risk-field { grid-area: risk; }
+  .repair-cost-field { grid-area: cost; }
+  .repair-remove {
+    grid-area: remove;
+    justify-self: end;
+    width: auto;
+    height: 32px;
+    padding: 0 5px;
+    border-radius: 8px;
+    color: var(--red);
+    font-size: .72rem;
+    font-weight: 800;
+  }
+  .repair-remove-symbol { display: none; }
+  .repair-remove-text { display: inline; }
+  .repair-field {
+    display: grid;
+    gap: 4px;
+  }
+  .repair-field-label {
+    display: block;
+    color: var(--muted);
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .repair-field .uncertainty {
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding-inline: 8px;
+  }
+  .repair-row .number-box {
+    min-height: 42px;
+    padding-inline: 8px;
+  }
+  .repair-name,
+  .repair-row .number-box input,
+  .repair-total-control input,
+  .add-repair input,
+  .add-repair select {
+    font-size: 16px;
+  }
+  .add-repair button { width: 100%; }
+}
+
 @media (max-width: 390px) {
   .state-suffix { display: none; }
   .tabs button { padding-inline: 8px; }
   .maximum-bid { font-size: 3.25rem; }
+  #changeEstimates { padding-inline: 14px; }
   .analysis-metrics,
   .market-grid { grid-template-columns: 1fr; }
 }

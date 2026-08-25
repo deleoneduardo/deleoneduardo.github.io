@@ -294,11 +294,65 @@
     });
   }
 
+  function popoverIsOpen(popover) {
+    if (!popover?.matches) return false;
+    try {
+      return popover.matches(":popover-open");
+    } catch {
+      return false;
+    }
+  }
+
+  function positionInfoTip(wrap) {
+    const button = wrap?.querySelector("[data-info-button]");
+    const popover = wrap?.querySelector(".info-popover");
+    if (!button || !popover || !wrap.classList.contains("is-open") || !popoverIsOpen(popover)) return;
+    const buttonRect = button.getBoundingClientRect();
+    const popoverRect = popover.getBoundingClientRect();
+    const gutter = 10;
+    const gap = 8;
+    const maxLeft = Math.max(gutter, root.innerWidth - popoverRect.width - gutter);
+    const left = clamp(buttonRect.left + buttonRect.width / 2 - popoverRect.width / 2, gutter, maxLeft);
+    const below = buttonRect.bottom + gap;
+    const above = buttonRect.top - popoverRect.height - gap;
+    const top = below + popoverRect.height <= root.innerHeight - gutter || above < gutter
+      ? clamp(below, gutter, Math.max(gutter, root.innerHeight - popoverRect.height - gutter))
+      : above;
+    popover.style.right = "auto";
+    popover.style.bottom = "auto";
+    popover.style.transform = "none";
+    popover.style.left = `${Math.round(left)}px`;
+    popover.style.top = `${Math.round(top)}px`;
+  }
+
+  function openInfoTip(wrap, pinned = false) {
+    if (!wrap) return;
+    const popover = wrap.querySelector(".info-popover");
+    const button = wrap.querySelector("[data-info-button]");
+    wrap.classList.remove("is-focus-dismissed");
+    wrap.classList.add("is-open");
+    wrap.classList.toggle("is-pinned", pinned || wrap.classList.contains("is-pinned"));
+    button?.setAttribute("aria-expanded", "true");
+    if (popover?.showPopover && !popoverIsOpen(popover)) {
+      try { popover.showPopover(); } catch { /* CSS fallback remains available. */ }
+    }
+    root.requestAnimationFrame(() => positionInfoTip(wrap));
+  }
+
+  function closeInfoTip(wrap) {
+    if (!wrap) return;
+    const popover = wrap.querySelector(".info-popover");
+    wrap.classList.remove("is-open", "is-pinned");
+    wrap.querySelector("[data-info-button]")?.setAttribute("aria-expanded", "false");
+    if (popover?.hidePopover && popoverIsOpen(popover)) {
+      try { popover.hidePopover(); } catch { /* Element may have been replaced during render. */ }
+    }
+  }
+
   function closeInfoTips(except = null) {
     root.document.querySelectorAll(".info-wrap.is-open").forEach((wrap) => {
       if (wrap === except) return;
-      wrap.classList.remove("is-open");
-      wrap.querySelector("[data-info-button]")?.setAttribute("aria-expanded", "false");
+      closeInfoTip(wrap);
     });
   }
 
@@ -326,9 +380,10 @@
     popover.className = "info-popover";
     popover.id = tooltipId;
     popover.setAttribute("role", "tooltip");
+    if (popover.showPopover) popover.setAttribute("popover", "manual");
     popover.textContent = help;
     wrap.append(button, popover);
-    target.append(root.document.createTextNode(" "), wrap);
+    target.append(root.document.createTextNode("\u00a0"), wrap);
   }
 
   function enhanceInfoTips() {
@@ -490,16 +545,34 @@
         <div class="repair-item-copy">
           <div class="repair-toggle-name">
             <input type="checkbox" data-repair-toggle="${escapeHtml(entry.id)}" ${entry.enabled ? "checked" : ""} aria-label="Include ${escapeHtml(entry.name)}">
-            <input class="repair-name" type="text" value="${escapeHtml(entry.name)}" maxlength="70" data-repair-name="${escapeHtml(entry.id)}" aria-label="Repair item name">
+            <textarea class="repair-name" rows="1" maxlength="70" data-repair-name="${escapeHtml(entry.id)}" aria-label="Repair item name">${escapeHtml(entry.name)}</textarea>
           </div>
           <span class="repair-row-help" data-info="Editable planning allowance, not a finding of damage. Replace with inspection or contractor evidence." data-info-label="${escapeHtml(entry.name)} allowance"></span>
         </div>
-        <select class="uncertainty ${entry.uncertainty.toLowerCase()}" data-repair-uncertainty="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} uncertainty">
-          ${["Low", "Medium", "High"].map((level) => `<option ${level === entry.uncertainty ? "selected" : ""}>${level}</option>`).join("")}
-        </select>
-        <span class="number-box"><span>$</span><input type="number" min="0" step="5000" value="${Math.round(entry.cost)}" data-repair-cost="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} allowance"></span>
-        <button class="repair-remove" type="button" data-repair-remove="${escapeHtml(entry.id)}" aria-label="Remove ${escapeHtml(entry.name)}">×</button>
+        <label class="repair-field repair-risk-field">
+          <span class="repair-field-label">Risk</span>
+          <select class="uncertainty ${entry.uncertainty.toLowerCase()}" data-repair-uncertainty="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} uncertainty">
+            ${["Low", "Medium", "High"].map((level) => `<option ${level === entry.uncertainty ? "selected" : ""}>${level}</option>`).join("")}
+          </select>
+        </label>
+        <label class="repair-field repair-cost-field">
+          <span class="repair-field-label">Allowance</span>
+          <span class="number-box"><span>$</span><input type="number" min="0" step="5000" value="${Math.round(entry.cost)}" data-repair-cost="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} allowance"></span>
+        </label>
+        <button class="repair-remove" type="button" data-repair-remove="${escapeHtml(entry.id)}" aria-label="Remove ${escapeHtml(entry.name)}"><span class="repair-remove-symbol" aria-hidden="true">×</span><span class="repair-remove-text">Remove</span></button>
       </div>`).join("");
+  }
+
+  function resizeRepairNames(scope = root.document) {
+    scope.querySelectorAll?.(".repair-name").forEach((control) => {
+      control.style.height = "auto";
+      control.style.height = `${Math.max(40, control.scrollHeight + 2)}px`;
+    });
+  }
+
+  function resizeOpenRepairNames() {
+    const editor = root.document.getElementById("repairEditor");
+    if (editor?.open) resizeRepairNames(editor);
   }
 
   function analysisMarkup(key, property, result) {
@@ -642,6 +715,7 @@
         totalRange.value = totalRepairs;
       }
       root.document.getElementById("repairList").innerHTML = repairMarkup(property);
+      resizeRepairNames(root.document.getElementById("repairList"));
     }
     setText("netSale", money.format(result.netSale));
     setText("returnBuffer", `− ${money.format(result.returnBuffer)}`);
@@ -776,11 +850,12 @@
       event.preventDefault();
       event.stopPropagation();
       const wrap = infoButton.closest(".info-wrap");
-      wrap.classList.remove("is-focus-dismissed");
-      const opening = !wrap.classList.contains("is-open");
-      closeInfoTips(wrap);
-      wrap.classList.toggle("is-open", opening);
-      infoButton.setAttribute("aria-expanded", String(opening));
+      if (wrap.classList.contains("is-pinned")) {
+        closeInfoTip(wrap);
+      } else {
+        closeInfoTips(wrap);
+        openInfoTip(wrap, true);
+      }
       return;
     }
     if (!event.target.closest(".info-wrap")) closeInfoTips();
@@ -836,6 +911,7 @@
       if (entry) {
         entry.name = event.target.value.slice(0, 70);
         save();
+        resizeRepairNames(event.target.parentElement);
       }
     }
   });
@@ -898,6 +974,11 @@
   });
 
   root.document.addEventListener("keydown", (event) => {
+    if (event.target.matches?.("[data-repair-name]") && event.key === "Enter") {
+      event.preventDefault();
+      event.target.blur();
+      return;
+    }
     if (event.key === "Escape") {
       closeInfoTips();
       const focusedInfo = root.document.activeElement?.closest?.("[data-info-button]");
@@ -917,8 +998,39 @@
     setView(VIEW_KEYS[next], true);
   });
 
+  root.document.addEventListener("pointerover", (event) => {
+    const infoButton = event.target.closest?.("[data-info-button]");
+    if (!infoButton) return;
+    const wrap = infoButton.closest(".info-wrap");
+    if (wrap.contains(event.relatedTarget)) return;
+    closeInfoTips(wrap);
+    openInfoTip(wrap);
+  });
+
+  root.document.addEventListener("pointerout", (event) => {
+    const wrap = event.target.closest?.(".info-wrap");
+    if (!wrap || wrap.contains(event.relatedTarget) || wrap.classList.contains("is-pinned")) return;
+    root.setTimeout(() => {
+      if (!wrap.contains(root.document.activeElement) && !wrap.classList.contains("is-pinned")) closeInfoTip(wrap);
+    }, 0);
+  });
+
   root.document.addEventListener("focusin", (event) => {
-    event.target.closest?.(".info-wrap")?.classList.remove("is-focus-dismissed");
+    const wrap = event.target.closest?.(".info-wrap");
+    if (!wrap) return;
+    wrap.classList.remove("is-focus-dismissed");
+    if (event.target.matches?.("[data-info-button]")) {
+      closeInfoTips(wrap);
+      openInfoTip(wrap);
+    }
+  });
+
+  root.document.addEventListener("focusout", (event) => {
+    const wrap = event.target.closest?.(".info-wrap");
+    if (!wrap || wrap.classList.contains("is-pinned")) return;
+    root.setTimeout(() => {
+      if (!wrap.contains(root.document.activeElement) && !wrap.classList.contains("is-pinned")) closeInfoTip(wrap);
+    }, 0);
   });
 
   root.MaximumBidModel = {
@@ -938,5 +1050,15 @@
   } else {
     render();
   }
-  root.addEventListener("resize", alignInfoTips);
+  function repositionInfoTips() {
+    alignInfoTips();
+    root.document.querySelectorAll(".info-wrap.is-open").forEach(positionInfoTip);
+    resizeOpenRepairNames();
+  }
+
+  root.document.getElementById("repairEditor")?.addEventListener("toggle", () => {
+    root.requestAnimationFrame(() => root.requestAnimationFrame(resizeOpenRepairNames));
+  });
+  root.addEventListener("resize", repositionInfoTips);
+  root.document.addEventListener("scroll", () => root.requestAnimationFrame(repositionInfoTips), true);
 })(window);
