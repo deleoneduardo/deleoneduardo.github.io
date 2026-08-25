@@ -887,13 +887,14 @@ h1 {
 
 .final-instruction {
   margin: 20px 0 0;
-  padding: 18px;
-  border-radius: 12px;
-  background: var(--red);
-  color: white;
+  padding: 2px 0 2px 14px;
+  border-left: 3px solid var(--red);
+  background: transparent;
+  color: #84362d;
   font-size: 1.12rem;
   font-weight: 900;
-  text-align: center;
+  line-height: 1.45;
+  text-align: left;
 }
 
 .site-disclaimer {
