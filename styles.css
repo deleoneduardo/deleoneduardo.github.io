@@ -99,7 +99,7 @@ button { color: inherit; }
 .text-button:focus-visible,
 .info-tip:focus-visible,
 .repair-remove:focus-visible,
-.add-repair button:focus-visible {
+.add-repair > button:focus-visible {
   outline: 3px solid rgba(31, 107, 69, .28);
   outline-offset: 2px;
 }
@@ -551,9 +551,9 @@ h1 {
 .repair-list-heading,
 .repair-row {
   display: grid;
-  grid-template-columns: minmax(240px, 1fr) 92px 142px 40px;
+  grid-template-columns: minmax(240px, 1fr) minmax(150px, .58fr) 40px;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .repair-list-heading {
@@ -574,15 +574,11 @@ h1 {
 .repair-row.is-excluded { opacity: 1; }
 
 .repair-row.is-excluded .repair-toggle-name,
-.repair-row.is-excluded .repair-risk-field,
 .repair-row.is-excluded .repair-cost-field,
 .repair-row.is-excluded .repair-remove { opacity: .48; }
 
 .repair-item-copy {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
+  min-width: 0;
 }
 
 .repair-toggle-name {
@@ -592,8 +588,6 @@ h1 {
   gap: 8px;
   min-width: 0;
 }
-
-.repair-row-help { display: inline-flex; }
 
 .repair-item-copy input[type="checkbox"] {
   width: 20px;
@@ -620,29 +614,11 @@ h1 {
 .repair-name:hover,
 .repair-name:focus { border-color: var(--line); background: white; outline: none; }
 
-.uncertainty {
-  display: inline-flex;
-  justify-content: center;
-  padding: 5px 8px;
-  border: 0;
-  border-radius: 999px;
-  background: #ece8df;
-  color: var(--muted);
-  font-size: .68rem;
-  font-weight: 850;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.uncertainty.high { background: var(--red-soft); color: var(--red); }
-.uncertainty.low { background: var(--green-soft); color: var(--green); }
-
 .repair-row .number-box { min-height: 40px; }
 
 .repair-field { display: block; min-width: 0; }
 .repair-field-label,
 .repair-remove-text { display: none; }
-.repair-field .uncertainty,
 .repair-cost-field .number-box { width: 100%; box-sizing: border-box; }
 
 .repair-remove {
@@ -660,7 +636,7 @@ h1 {
 
 .add-repair {
   display: grid;
-  grid-template-columns: minmax(180px, 1.5fr) minmax(130px, .8fr) minmax(110px, .6fr) auto;
+  grid-template-columns: minmax(180px, 1fr) minmax(130px, .48fr) auto;
   align-items: end;
   gap: 10px;
   margin-top: 14px;
@@ -670,10 +646,14 @@ h1 {
 
 .add-field { display: grid; gap: 5px; color: var(--muted); font-size: .72rem; font-weight: 750; }
 
-.add-field-label { display: flex; align-items: center; gap: 6px; }
+.add-field-label {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  white-space: nowrap;
+}
 
-.add-field > input,
-.add-repair select {
+.add-field > input {
   min-height: 46px;
   width: 100%;
   border: 1px solid var(--line);
@@ -683,7 +663,7 @@ h1 {
   padding: 0 11px;
 }
 
-.add-repair button,
+.add-repair > button,
 .text-button {
   min-height: 46px;
   border: 0;
@@ -1001,15 +981,13 @@ span.info-wrap { display: inline-flex; }
   .repair-editor-body { padding-inline: 10px; }
   .repair-list-heading { display: none; }
   .repair-row {
-    grid-template-columns: 1fr 120px 38px;
-    gap: 7px;
+    grid-template-columns: minmax(0, 1fr) 138px 38px;
+    gap: 8px;
     padding-block: 10px;
   }
-  .repair-item-copy { grid-column: 1 / -1; }
-  .repair-risk-field { grid-column: 1; }
+  .repair-item-copy { grid-column: 1; }
   .repair-cost-field { grid-column: 2; }
   .repair-remove { grid-column: 3; }
-  .add-repair { grid-template-columns: 1fr; }
   .analysis-metrics,
   .market-grid { grid-template-columns: repeat(2, 1fr); }
   .analysis-grid,
@@ -1059,72 +1037,78 @@ span.info-wrap { display: inline-flex; }
     gap: 8px;
   }
   .repair-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    grid-template-columns: minmax(0, 1fr) 82px 22px;
     grid-template-areas:
-      "item item"
-      "risk cost"
-      "remove remove";
-    gap: 9px 8px;
+      "item cost remove";
+    gap: 5px;
     min-height: 0;
-    padding: 11px;
+    padding: 8px 5px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: white;
   }
   .repair-row.is-excluded { background: #f0eee8; }
   .repair-item-copy { grid-area: item; }
-  .repair-risk-field { grid-area: risk; }
+  .repair-toggle-name {
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 5px;
+  }
+  .repair-item-copy input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  .repair-name {
+    padding: 5px 3px;
+    line-height: 1.18;
+  }
   .repair-cost-field { grid-area: cost; }
   .repair-remove {
     grid-area: remove;
-    justify-self: end;
-    width: auto;
-    height: 32px;
-    padding: 0 5px;
-    border-radius: 8px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border-radius: 50%;
     color: var(--red);
-    font-size: .72rem;
+    font-size: 1.1rem;
     font-weight: 800;
-  }
-  .repair-remove-symbol { display: none; }
-  .repair-remove-text { display: inline; }
-  .repair-field {
-    display: grid;
-    gap: 4px;
-  }
-  .repair-field-label {
-    display: block;
-    color: var(--muted);
-    font-size: .64rem;
-    font-weight: 800;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-  }
-  .repair-field .uncertainty {
-    min-height: 42px;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding-inline: 8px;
   }
   .repair-row .number-box {
-    min-height: 42px;
-    padding-inline: 8px;
+    min-height: 40px;
+    padding-inline: 3px;
+  }
+  .repair-row .number-box input { appearance: textfield; }
+  .repair-row .number-box input::-webkit-inner-spin-button,
+  .repair-row .number-box input::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
   }
   .repair-name,
   .repair-row .number-box input,
   .repair-total-control input,
-  .add-repair input,
-  .add-repair select {
+  .add-repair input {
     font-size: 16px;
   }
-  .add-repair button { width: 100%; }
+  .add-repair {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    grid-template-areas:
+      "name name"
+      "cost add";
+    gap: 8px;
+  }
+  .add-repair-name { grid-area: name; }
+  .add-repair-cost { grid-area: cost; }
+  .add-repair > button {
+    grid-area: add;
+    width: 100%;
+    padding-inline: 10px;
+  }
 }
 
 @media (max-width: 390px) {
   .state-suffix { display: none; }
   .tabs button { padding-inline: 8px; }
   .maximum-bid { font-size: 3.25rem; }
-  #changeEstimates { padding-inline: 14px; }
+  #changeEstimates { padding-inline: 10px; }
   .analysis-metrics,
   .market-grid { grid-template-columns: 1fr; }
 }

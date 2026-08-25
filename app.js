@@ -62,9 +62,6 @@
     "Inspection + legal": "Cash allowance for diligence, records, inspections, surveys, and professional review.",
     "Monthly ownership cost": "Taxes, insurance, utilities, security, maintenance, and other carrying cash per month.",
     "Months until sale": "Modeled time until exit proceeds arrive. Longer time lowers present value and adds carrying cost.",
-    "Include and allowance": "Toggle work on or off, rename it, and replace allowance with better evidence.",
-    "Uncertainty": "Judgment of estimate reliability: Low, Medium, or High. It does not alter math by itself.",
-    "Dollars": "Editable planning allowance for this repair item.",
     "New repair item": "Add missing scope so it becomes part of total repair budget.",
     "Allowance": "Provisional cash budget until contractor quote or inspection supplies better evidence.",
     "How maximum is found": "Discounted-cash-flow model subtracts present value of repairs, diligence, carrying costs, and required return from net sale proceeds.",
@@ -112,7 +109,6 @@
     ".road-high",
     ".quick-numbers > div > span",
     ".section-heading h2",
-    ".repair-list-heading > span",
     ".proof-card > span",
     ".word-formula",
     ".math-list > div > span",
@@ -547,14 +543,7 @@
             <input type="checkbox" data-repair-toggle="${escapeHtml(entry.id)}" ${entry.enabled ? "checked" : ""} aria-label="Include ${escapeHtml(entry.name)}">
             <textarea class="repair-name" rows="1" maxlength="70" data-repair-name="${escapeHtml(entry.id)}" aria-label="Repair item name">${escapeHtml(entry.name)}</textarea>
           </div>
-          <span class="repair-row-help" data-info="Editable planning allowance, not a finding of damage. Replace with inspection or contractor evidence." data-info-label="${escapeHtml(entry.name)} allowance"></span>
         </div>
-        <label class="repair-field repair-risk-field">
-          <span class="repair-field-label">Risk</span>
-          <select class="uncertainty ${entry.uncertainty.toLowerCase()}" data-repair-uncertainty="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} uncertainty">
-            ${["Low", "Medium", "High"].map((level) => `<option ${level === entry.uncertainty ? "selected" : ""}>${level}</option>`).join("")}
-          </select>
-        </label>
         <label class="repair-field repair-cost-field">
           <span class="repair-field-label">Allowance</span>
           <span class="number-box"><span>$</span><input type="number" min="0" step="5000" value="${Math.round(entry.cost)}" data-repair-cost="${escapeHtml(entry.id)}" aria-label="${escapeHtml(entry.name)} allowance"></span>
@@ -931,16 +920,6 @@
         render({ refreshControls: false });
       }
     }
-    if (event.target.matches("[data-repair-uncertainty]")) {
-      const entry = findRepair(event.target.dataset.repairUncertainty);
-      if (entry && ["Low", "Medium", "High"].includes(event.target.value)) {
-        const repairId = event.target.dataset.repairUncertainty;
-        entry.uncertainty = event.target.value;
-        save();
-        render();
-        root.document.querySelector(`[data-repair-uncertainty="${repairId}"]`)?.focus();
-      }
-    }
     if (event.target.matches("[data-repair-toggle]")) {
       const entry = findRepair(event.target.dataset.repairToggle);
       if (entry) {
@@ -965,7 +944,7 @@
       id,
       name.slice(0, 70),
       Math.max(0, finite(data.get("repairCost"), 5000)),
-      ["Low", "Medium", "High"].includes(data.get("repairUncertainty")) ? data.get("repairUncertainty") : "Medium"
+      "Medium"
     ));
     save();
     render();

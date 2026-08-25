@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f7f3ec">
   <meta name="description" content="A source-backed maximum-bid model for two Texas sheriff-sale properties.">
   <title>Maximum Bid Model</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-4">
-  <script defer src="app.js?v=20260825-3"></script>
+  <link rel="stylesheet" href="styles.css?v=20260825-5">
+  <script defer src="app.js?v=20260825-5"></script>
 </head>
 <body>
   <a class="skip-link" href="#decision">Skip to property analysis</a>
@@ -87,13 +87,12 @@
                   <input class="range" type="range" data-repair-range min="0" max="600000" step="5000" aria-label="Total repair budget slider, five thousand dollar steps">
                 </div>
 
-                <div class="repair-list-heading"><span>Include and allowance</span><span>Uncertainty</span><span>Dollars</span><span></span></div>
+                <div class="repair-list-heading"><span>Repair</span><span>Allowance</span><span></span></div>
                 <div class="repair-list" id="repairList"></div>
 
                 <form class="add-repair" id="addRepairForm">
-                  <div class="add-field"><span class="add-field-label"><label for="repairNameInput">New repair item</label><span data-info data-info-label="New repair item"></span></span><input id="repairNameInput" type="text" name="repairName" maxlength="70" placeholder="Example: Air conditioning" required></div>
-                  <div class="add-field"><span class="add-field-label"><label for="repairCostInput">Allowance</label><span data-info data-info-label="Allowance"></span></span><span class="number-box"><span>$</span><input id="repairCostInput" type="number" name="repairCost" min="0" step="5000" value="5000" required></span></div>
-                  <div class="add-field"><span class="add-field-label"><label for="repairUncertaintyInput">Uncertainty</label><span data-info data-info-label="Uncertainty"></span></span><select id="repairUncertaintyInput" name="repairUncertainty"><option>Medium</option><option>Low</option><option>High</option></select></div>
+                  <div class="add-field add-repair-name"><span class="add-field-label" data-info data-info-label="New repair item"><label for="repairNameInput">New repair item</label></span><input id="repairNameInput" type="text" name="repairName" maxlength="70" placeholder="Example: Air conditioning" required></div>
+                  <div class="add-field add-repair-cost"><span class="add-field-label" data-info data-info-label="Allowance"><label for="repairCostInput">Allowance</label></span><span class="number-box"><span>$</span><input id="repairCostInput" type="number" name="repairCost" min="0" step="5000" value="5000" required></span></div>
                   <button type="submit">Add repair</button>
                 </form>
                 <p class="repair-note">Planning allowances, not findings of damage. Total drives maximum bid. Extra cushion below applies afterward.</p>
