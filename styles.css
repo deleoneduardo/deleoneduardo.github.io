@@ -479,7 +479,6 @@ h1 {
 }
 
 .repair-editor-shell {
-  position: relative;
   min-width: 0;
   border-bottom: 1px solid var(--line);
 }
@@ -487,11 +486,10 @@ h1 {
 .repair-editor { min-width: 0; }
 
 .details-info-slot { display: inline-flex; }
-.repair-editor-shell > .details-info-slot {
-  position: absolute;
-  z-index: 2;
-  top: 25px;
-  left: 110px;
+.details-summary-title {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .repair-editor > summary {
@@ -1043,10 +1041,6 @@ span.info-wrap { display: inline-flex; }
   #repairSummaryTotal {
     font-size: 1rem;
     white-space: nowrap;
-  }
-  .repair-editor-shell > .details-info-slot {
-    top: 25px;
-    left: 91px;
   }
   .repair-editor-body {
     padding: 8px;
