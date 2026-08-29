@@ -4,183 +4,84 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f3ec">
-  <meta name="description" content="A source-backed maximum-bid model for two Texas sheriff-sale properties.">
-  <title>Maximum Bid Model</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-5">
-  <script defer src="app.js?v=20260825-5"></script>
+  <meta name="description" content="September 2026 Texas sheriff sale auctions — browse every listed property by county, filter by minimum bid.">
+  <title>Texas Sheriff Sales — September 2026</title>
+  <link rel="stylesheet" href="styles.css?v=20260829-1">
+  <script src="data.js?v=20260829-1"></script>
+  <script defer src="app.js?v=20260829-1"></script>
 </head>
 <body>
-  <a class="skip-link" href="#decision">Skip to property analysis</a>
+  <a class="skip-link" href="#property">Skip to property</a>
 
   <header class="property-switcher">
     <div class="nav-groups">
-      <div class="tabs property-tabs" aria-label="Choose property">
-        <button type="button" data-property-tab="dallas" aria-pressed="false"><span>Dallas</span><span class="state-suffix">, TX</span></button>
-        <button type="button" data-property-tab="spicewood" aria-pressed="true"><span>Austin</span><span class="state-suffix">, TX</span></button>
-      </div>
-      <div class="tabs view-tabs" role="tablist" aria-label="Choose report view">
-        <button type="button" role="tab" id="viewTabSummary" data-view-tab="summary" aria-selected="true" aria-controls="summaryPanel">Summary</button>
-        <button type="button" role="tab" id="viewTabAnalysis" data-view-tab="analysis" aria-selected="false" aria-controls="analysisPanel">Analysis</button>
-        <button type="button" role="tab" id="viewTabOpinion" data-view-tab="opinion" aria-selected="false" aria-controls="opinionPanel">Opinion</button>
-      </div>
+      <div class="tabs county-tabs" id="countyTabs" aria-label="Choose county"></div>
     </div>
-    <button class="reset-button" type="button" data-reset>Reset numbers</button>
+    <div class="header-meta">
+      <span class="header-month">September 2026</span>
+    </div>
   </header>
 
-  <main id="decision">
-    <section class="property-intro" aria-labelledby="propertyAddress">
-      <div class="auction-line-row"><p class="auction-line" id="auctionLine"></p><span data-info="County, scheduled auction date, and Central Time start. Confirm current official posting before relying on schedule." data-info-label="Auction schedule"></span></div>
+  <main id="property">
+    <section class="property-intro">
+      <p class="auction-line" id="auctionLine"></p>
       <h1 id="propertyAddress"></h1>
-      <div class="property-facts-row"><p class="property-facts" id="propertyFacts"></p><span data-info="High-level public property facts used for context; independently verify before bidding." data-info-label="Property facts"></span></div>
+      <p class="property-facts" id="propertyFacts"></p>
     </section>
 
-    <div class="view-panel" id="summaryPanel" role="tabpanel" aria-labelledby="viewTabSummary" data-view-panel="summary">
-      <section class="answer-card" aria-labelledby="maximumBidLabel">
-        <p class="answer-label" id="maximumBidLabel">Maximum bid</p>
-        <output class="maximum-bid" id="maximumBid" aria-live="polite"></output>
-        <p class="answer-rule">Do not bid above this price.</p>
-        <div class="status" id="status" role="status"></div>
+    <section class="answer-card" id="answerCard" aria-live="polite">
+      <div class="stamp" id="stamp" hidden><span id="stampText"></span></div>
+      <p class="answer-label">Estimated minimum bid</p>
+      <output class="maximum-bid" id="minBidBig"></output>
+      <p class="answer-rule" id="bidRule">Opening bid required at auction.</p>
+      <div class="status" id="statusChip" role="status"></div>
 
-        <div class="bid-road" aria-label="Auction start to maximum bid">
-          <div class="road-point road-start"><span>Start</span><strong id="auctionMinimum"></strong></div>
-          <div class="road-safe"><span>Safe bidding room</span></div>
-          <div class="road-point road-stop"><span>Stop</span><strong id="roadMaximum"></strong></div>
-          <div class="road-high">Too high</div>
-        </div>
+      <div class="quick-numbers">
+        <div><span>Adjudged value</span><strong id="qAdjudged"></strong><small>Court-determined value</small></div>
+        <div><span>Bid vs. value</span><strong id="qRatio"></strong><small>Minimum bid as share of value</small></div>
+        <div><span>Account number</span><strong id="qAccount" class="mono"></strong><small id="qCause"></small></div>
+      </div>
 
-        <div class="quick-numbers">
-          <div><span>Room to bid</span><strong id="bidRoom"></strong></div>
-          <div><span>5% deposit at maximum</span><strong id="deposit"></strong><small>Part of purchase price</small></div>
-          <div><span>Yearly return goal</span><strong id="returnGoal"></strong><small id="returnExample"></small></div>
-        </div>
-      </section>
+      <div class="pager">
+        <button type="button" class="pager-button" id="prevBtn" aria-label="Previous property">‹ Prev</button>
+        <span class="pager-count" id="pagerCount"></span>
+        <button type="button" class="pager-button" id="nextBtn" aria-label="Next property">Next ›</button>
+      </div>
+    </section>
 
-      <section class="plain-section" aria-labelledby="whyHeading">
-        <div class="section-heading"><div><p class="step">1</p><h2 id="whyHeading">Why this can be a good deal</h2></div></div>
-        <div class="proof-grid" id="proofGrid"></div>
-        <p class="proof-note" id="proofNote"></p>
-      </section>
+    <section class="plain-section" aria-labelledby="filterHeading">
+      <div class="section-heading">
+        <div><p class="step">Filter</p><h2 id="filterHeading">Minimum bid above</h2></div>
+        <p id="filterSummary"></p>
+      </div>
+      <div class="model-input">
+        <label class="input-copy" for="minBidInput"><strong>Show properties with minimum bid above</strong><small>Every property at or above this amount stays in the list. Type an exact value or drag the slider.</small></label>
+        <span class="number-box"><span>$</span><input id="minBidInput" type="number" min="0" step="1000" inputmode="numeric" value="0"></span>
+        <input class="range" type="range" id="minBidRange" min="0" max="250000" step="1000" value="0" aria-label="Minimum bid filter slider">
+      </div>
+    </section>
 
-      <section class="plain-section" id="changeEstimates" aria-labelledby="inputsHeading">
-        <div class="section-heading">
-          <div><p class="step">2</p><h2 id="inputsHeading">Change estimates</h2></div>
-          <p>Every dollar changes maximum bid.</p>
-        </div>
+    <section class="plain-section" aria-labelledby="listHeading">
+      <div class="section-heading">
+        <div><p class="step">County list</p><h2 id="listHeading">All matching properties</h2></div>
+      </div>
+      <div class="prop-list" id="propList"></div>
+      <p class="proof-note" id="sourceNote"></p>
+    </section>
 
-        <div class="input-list">
-          <div class="model-input">
-            <span class="input-copy-row"><label class="input-copy" for="expectedSaleInput"><strong>Expected sale price</strong><small>Money property may sell for after work. Slider snaps by $5,000; type an exact value.</small></label><span data-info data-info-label="Expected sale price"></span></span>
-            <span class="number-box"><span>$</span><input id="expectedSaleInput" type="number" data-field="expectedSale" min="0" step="5000" inputmode="numeric"></span>
-            <input class="range" type="range" data-range="expectedSale" min="300000" max="1200000" step="5000" aria-label="Expected sale price slider, five thousand dollar steps">
-          </div>
-
-          <div class="repair-editor-shell">
-            <details class="repair-editor" id="repairEditor">
-              <summary>
-                <span class="repair-summary-copy"><span class="repair-chevron" aria-hidden="true">›</span><span><span class="details-summary-title"><strong>Repairs</strong><span class="details-info-slot" data-info data-info-label="Repairs"></span></span><small>Open every allowance: roof, air conditioning, utilities, finishes, site work, and more.</small></span></span>
-                <strong id="repairSummaryTotal"></strong>
-              </summary>
-              <div class="repair-editor-body">
-                <div class="model-input repair-total-control">
-                  <span class="input-copy-row"><span class="input-copy"><strong>Total repair budget</strong><small>Slider changes unallocated allowance in fixed $5,000 steps.</small></span><span data-info data-info-label="Total repair budget"></span></span>
-                  <span class="number-box"><span>$</span><input type="number" data-repair-total min="0" step="5000" inputmode="numeric" aria-label="Total repair budget"></span>
-                  <input class="range" type="range" data-repair-range min="0" max="600000" step="5000" aria-label="Total repair budget slider, five thousand dollar steps">
-                </div>
-
-                <div class="repair-list-heading"><span>Repair</span><span>Allowance</span><span></span></div>
-                <div class="repair-list" id="repairList"></div>
-
-                <form class="add-repair" id="addRepairForm">
-                  <div class="add-field add-repair-name"><span class="add-field-label" data-info data-info-label="New repair item"><label for="repairNameInput">New repair item</label></span><input id="repairNameInput" type="text" name="repairName" maxlength="70" placeholder="Example: Air conditioning" required></div>
-                  <div class="add-field add-repair-cost"><span class="add-field-label" data-info data-info-label="Allowance"><label for="repairCostInput">Allowance</label></span><span class="number-box"><span>$</span><input id="repairCostInput" type="number" name="repairCost" min="0" step="5000" value="5000" required></span></div>
-                  <button type="submit">Add repair</button>
-                </form>
-                <p class="repair-note">Planning allowances, not findings of damage. Total drives maximum bid. Extra cushion below applies afterward.</p>
-              </div>
-            </details>
-          </div>
-
-          <div class="model-input">
-            <span class="input-copy-row"><label class="input-copy" for="contingencyInput"><strong>Extra repair cushion</strong><small>Backup money beyond itemized allowances.</small></label><span data-info data-info-label="Extra repair cushion"></span></span>
-            <span class="number-box suffix"><input id="contingencyInput" type="number" data-field="contingencyPct" min="0" max="100" step="1" inputmode="numeric"><span>%</span></span>
-            <input class="range" type="range" data-range="contingencyPct" min="0" max="40" step="1" aria-label="Extra repair cushion slider">
-          </div>
-
-          <div class="model-input">
-            <span class="input-copy-row"><label class="input-copy" for="returnInput"><strong>Yearly return goal</strong><small>How hard invested cash must work.</small></label><span data-info data-info-label="Yearly return goal"></span></span>
-            <span class="number-box suffix"><input id="returnInput" type="number" data-field="returnPct" min="0" max="100" step="1" inputmode="numeric"><span>%</span></span>
-            <input class="range" type="range" data-range="returnPct" min="0" max="60" step="1" aria-label="Yearly return goal slider">
-          </div>
-        </div>
-
-        <div class="details-with-info" id="moreCosts">
-          <details class="advanced">
-            <summary><span class="details-summary-title">More costs<span class="details-info-slot" data-info data-info-label="More costs"></span></span></summary>
-            <div class="advanced-grid">
-              <div class="advanced-field"><span class="advanced-field-label"><label for="saleFeesInput">Sale fees</label><span data-info data-info-label="Sale fees"></span></span><span class="number-box suffix"><input id="saleFeesInput" type="number" data-field="sellingCostPct" min="0" max="30" step="0.1"><span>%</span></span></div>
-              <div class="advanced-field"><span class="advanced-field-label"><label for="diligenceInput">Inspection + legal</label><span data-info data-info-label="Inspection + legal"></span></span><span class="number-box"><span>$</span><input id="diligenceInput" type="number" data-field="diligence" min="0" step="500"></span></div>
-              <div class="advanced-field"><span class="advanced-field-label"><label for="carryInput">Monthly ownership cost</label><span data-info data-info-label="Monthly ownership cost"></span></span><span class="number-box"><span>$</span><input id="carryInput" type="number" data-field="monthlyCarry" min="0" step="100"></span></div>
-              <div class="advanced-field"><span class="advanced-field-label"><label for="holdInput">Months until sale</label><span data-info data-info-label="Months until sale"></span></span><span class="number-box suffix"><input id="holdInput" type="number" data-field="holdMonths" min="1" max="36" step="1"><span>mo</span></span></div>
-            </div>
-          </details>
-        </div>
-      </section>
-
-      <section class="plain-section math-section" aria-labelledby="mathHeading">
-        <div class="section-heading"><div><p class="step">3</p><h2 id="mathHeading">How maximum is found</h2></div></div>
-        <p class="word-formula">Sale money <b>−</b> costs <b>−</b> return needed <b>=</b> maximum bid</p>
-        <div class="math-list">
-          <div><span>Money after sale fees</span><strong id="netSale"></strong></div>
-          <div><span>Minus return needed over time</span><strong class="minus" id="returnBuffer"></strong></div>
-          <div><span>Minus repairs + cushion</span><strong class="minus" id="repairPV"></strong></div>
-          <div><span>Minus inspection + legal</span><strong class="minus" id="diligencePV"></strong></div>
-          <div><span>Minus ownership costs</span><strong class="minus" id="carryPV"></strong></div>
-          <div class="math-total"><span>Maximum bid</span><strong id="mathMaximum"></strong></div>
-        </div>
-        <div class="details-with-info proof-details"><details class="advanced"><summary>Comparable properties and sources</summary><div id="sourceList" class="source-list"></div></details><span class="details-info-slot" data-info data-info-label="Comparable properties and sources"></span></div>
-      </section>
-    </div>
-
-    <div class="view-panel" id="analysisPanel" role="tabpanel" aria-labelledby="viewTabAnalysis" data-view-panel="analysis" hidden>
-      <section class="page-lead analysis-lead">
-        <p class="answer-label">Underwriting analysis</p>
-        <h2 id="analysisTitle"></h2>
-        <p id="analysisLead"></p>
-        <button type="button" class="text-button" data-edit-estimates>Edit estimates</button>
-      </section>
-      <section class="plain-section"><div class="analysis-metrics" id="analysisMetrics"></div></section>
-      <section class="plain-section analysis-grid" id="analysisNarrative"></section>
-      <section class="plain-section">
-        <div class="section-heading"><div><p class="step">Sensitivity</p><h2>What moves maximum bid</h2></div></div>
-        <div class="sensitivity-list" id="sensitivityList"></div>
-      </section>
-      <section class="plain-section">
-        <div class="section-heading"><div><p class="step">Evidence</p><h2>Current market signals</h2></div></div>
-        <div class="market-grid" id="marketGrid"></div>
-        <div class="source-list compact-sources" id="analysisSources"></div>
-      </section>
-    </div>
-
-    <div class="view-panel" id="opinionPanel" role="tabpanel" aria-labelledby="viewTabOpinion" data-view-panel="opinion" hidden>
-      <section class="opinion-hero" id="opinionHero"></section>
-      <section class="opinion-grid" id="opinionGrid"></section>
-      <section class="plain-section kill-section">
-        <div class="section-heading"><div><p class="step">Investment committee</p><h2>Conditions that can kill deal</h2></div></div>
-        <ul class="kill-list" id="killList"></ul>
-        <p class="final-instruction" id="finalInstruction"></p>
-      </section>
-      <section class="plain-section">
-        <div class="section-heading"><div><p class="step">Sources</p><h2>Facts behind opinion</h2></div></div>
-        <div class="source-list compact-sources" id="opinionSources"></div>
-      </section>
-    </div>
+    <section class="plain-section quiet-section" aria-labelledby="noSaleHeading">
+      <div class="section-heading">
+        <div><p class="step">Other counties</p><h2 id="noSaleHeading">No September 2026 sale scheduled</h2></div>
+      </div>
+      <div class="no-sale-list" id="noSaleList"></div>
+    </section>
   </main>
 
-  <aside class="site-disclaimer" aria-labelledby="disclaimerHeading">
-    <strong id="disclaimerHeading">Disclaimer</strong>
-    <p>Educational scenario model only—not investment, legal, tax, appraisal, engineering, inspection, title, or bidding advice. Public data and estimates may change or be incomplete. Independently verify auction status, condition, costs, ownership, redemption rules, comparable sales, and funding. No return is guaranteed.</p>
+  <aside class="site-disclaimer">
+    <strong>Disclaimer</strong>
+    <p>Informational snapshot of publicly posted sheriff sale auction data, captured August 29, 2026. Listings, minimum bids, and statuses change without notice — verify on the official county auction site before relying on any figure. Not legal, tax, title, or investment advice.</p>
   </aside>
 
-  <footer>Model estimates remain editable. Repair rows are allowances, not inspection findings or contractor quotes.</footer>
+  <footer>Data from the county RealAuction sheriff sale sites. Statuses shown as posted; scheduled sales occur on the county's official platform.</footer>
 </body>
 </html>
